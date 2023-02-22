@@ -1,0 +1,11 @@
+curl  https://uat.citconpay.com/chop/chop \
+-H "Authorization: Bearer 12341234123412341234123412341234" \
+-d payment_method="alipay" \
+-d amount=2 \
+-d currency="USD" \
+-d reference="jkh25jh1348fd89sg" \
+-d ipn_url="https://merchant.com/ipn" \
+-d callback_url_success="https://merchant.com/success" \
+-d callback_url_fail="https://merchant.com/fail" \
+-d mobile_result_url="https://merchant.com/mobile_confirm?reference=jkh25jh1348fd89sg" \
+-d allow_duplicates="yes"

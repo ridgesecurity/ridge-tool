@@ -1,0 +1,180 @@
+curl  https://uat.citconpay.com/chop/chop \
+-H "Authorization: Bearer 12341234123412341234123412341234" \
+-d payment_method="alipay" \
+-d amount=2 \
+-d currency="USD" \
+-d reference="jkh25jh1348fd89sg" \
+-d ipn_url="https://merchant.com/ipn" \
+-d callback_url_success="https://merchant.com/success" \
+-d callback_url_fail="https://merchant.com/fail" \
+-d mobile_result_url="https://merchant.com/mobile_confirm?reference=jkh25jh1348fd89sg" \
+-d allow_duplicates="yes"
+
+curl  https://uat.citconpay.com/chop/chop \
+-H "Authorization: Bearer JP2N5DSOBLBYAF0GXUNOQ3IONR16KPMA" \
+-d payment_method="alipay_hk" \
+-d trans_amount=10 \
+-d currency="HKD" \
+-d reference="jkh25jh1348fd89sg" \
+-d ipn_url="https://merchant.com/ipn" \
+-d callback_url_success="https://merchant.com/success" \
+-d callback_url_fail="https://merchant.com/fail" \
+-d mobile_result_url="https://merchant.com/mobile_confirm?reference=jkh25jh1348fd89sg" \
+-d allow_duplicates="yes"
+
+curl https://uat.citconpay.com/chop/inquire \
+-H "Authorization: Bearer 1234567890abcdef1234567890abcdeq" \
+-d q=ae217526eb4b5c40818d55e33 \
+-d inquire_method=real
+
+curl https://uat.citconpay.com/chop/refund \
+-H "Authorization: Bearer 1234567890abcdef1234567890abcdeq" \
+-d amount=1 \
+-d currency="USD" \
+-d transaction_id="3bfa17281b2e20c5e3303e045" \
+-d reason="test"
+
+curl https://uat.citconpay.com/chop/refund \
+-H "Authorization: Bearer 1234567890abcdef1234567890abcdeq" \
+-d trans_amount=10 \
+-d trans_currency="HKD" \
+-d transaction_id="20190627182000" \
+-d reason="test"
+
+curl https://uat.citconpay.com/chop/refund \
+-H "Authorization: Bearer 1234567890abcdef1234567890abcdeq" \
+-d amount=1 \
+-d currency="USD" \
+-d transaction_reference="test1234" \
+-d reason="test"
+
+curl https://uat.citconpay.com/chop/cancel \
+-H "Authorization: Bearer 1234567890abcdef1234567890abcdeq" \
+-d transaction_id="3bfa17281b2e20c5e3303e045" \
+-d reason="test"
+
+curl https://uat.citconpay.com/chop/cancel \
+-H "Authorization: Bearer 1234567890abcdef1234567890abcdeq" \
+-d transaction_reference="72f73528a4e90898123" \
+-d reason="test"
+
+curl https://uat.citconpay.com/payment/pay_qr \
+-H "Authorization: Bearer 12341234123412341234123412341234" \
+-d amount=2 \
+-d currency="USD" \
+-d vendor="generic" \
+-d reference="84238473247832874238" \
+-d ipn_url="https://merchant.com/ipn.php" \
+-d callback_url="https://dev.citcon-inc.com" \
+-d allow_duplicates="yes" \
+-d timeout="300" 
+
+curl https://uat.citconpay.com/payment/pay \
+-H "Authorization: Bearer 12341234123412341234123412341234" \
+-d amount=2 \
+-d currency="USD" \
+-d vendor="generic" \
+-d reference="84238473247832874238" \
+-d ipn_url="https://merchant.com/ipn.php" \
+-d callback_url="https://dev.citcon-inc.com" \
+-d allow_duplicates=yes
+
+curl https://uat.citconpay.com/payment/inquire \
+-H "Authorization: Bearer 417356AA994543DC8F4C4776C31246D7" \
+-d transaction_id=D0000001079-83c6b94bf5b61afe2e21 \
+-d inquire_method=real
+
+curl https://uat.citconpay.com/payment/inquire \
+-H "Authorization: Bearer 417356AA994543DC8F4C4776C31246D7" \
+-d reference=1000002061
+
+curl https://uat.citconpay.com/payment/refund \
+-H "Authorization: Bearer 1234567890abcdef1234567890abcdeq" \
+-d amount=1 \
+-d currency="USD" \
+-d transaction_id="3bfa17281b2e20c5e3303e045" \
+-d reason="test"
+
+curl https://uat.citconpay.com/payment/refund \
+-H "Authorization: Bearer 1234567890abcdef1234567890abcdeq" \
+-d trans_amount=10 \
+-d trans_currency="HKD" \
+-d transaction_id="3bfa17281b2e20c5e3303e045" \
+-d reason="test"
+
+curl https://uat.citconpay.com/payment/refund \
+-H "Authorization: Bearer 1234567890abcdef1234567890abcdeq" \
+-d amount=1 \
+-d currency="USD" \
+-d transaction_reference="20190627182000" \
+-d reason="test"
+
+curl https://uat.citconpay.com/payment/cancel \
+-H "Authorization: Bearer 1234567890abcdef1234567890abcdeq" \
+-d transaction_reference="20190627182000" \
+-d reason="test"
+
+curl https://uat.citconpay.com/payment/cancel \
+-H "Authorization: Bearer 1234567890abcdef1234567890abcdeq" \
+-d transaction_reference="20190627182000" \
+-d reason="test"
+
+curl https://uat.citconpay.com/payment/pay_wxmini \
+-H "Authorization: Bearer C59CE8752C8C4A6FB4B610E99CE3D5A8" \
+-d openid="EE8A90223BCCD" \
+-d amount=2 \
+-d currency="USD" \
+-d reference="jkh25jh1348fd89sg" \
+-d ipn_url="https://merchant.com/ipn.php" 
+
+curl https://uat.citconpay.com/posp/rest/initialize \
+-d store_code=123
+
+curl https://uat.citconpay.com/posp/rest/pay \
+-d token="123" \
+-d barcode="130739221328899074" \
+-d total="1" \
+-d pos_local_time="2017-01-27 01:39:42" \
+-d currency="USD" \
+-d reference="ref1234" \
+-d note="test"  
+
+curl https://uat.citconpay.com/posp/rest/pay_qr \
+-d token="123" \
+-d total="1" \
+-d tip="1" \
+-d currency="USD" \
+-d reference="ref1234" \
+-d pos_local_time="2017-01-27 01:39:42"
+
+curl https://uat.citconpay.com/posp/rest/inquire \
+-d token="123" \
+-d transaction_id="1000000525" \
+-d pos_local_time="2017-01-27 01:46:52" \
+-d note="test"  
+
+curl https://uat.citconpay.com/posp/rest/refund \
+-d token="123" \
+-d transaction_id="1000000525" \
+-d reference="REF000111" \
+-d refund_amount="0" \
+-d pos_local_time="2017-01-27 01:40:06" \
+-d note="test"  
+
+curl https://uat.citconpay.com/posp/rest/refund \
+-d token="123" 
+-d transaction_reference="REF1234" 
+-d reference="REF000111" 
+-d refund_amount="0" 
+-d pos_local_time="2017-01-27 01:40:06" 
+-d note="test"
+
+curl https://uat.citconpay.com/posp/rest/cancel \
+-d token="123" \
+-d transaction_id="1000000525" \
+-d note="cancel"  
+
+curl https://uat.citconpay.com/posp/rest/cancel \
+-d token="123" \
+-d transaction_reference="20190627182000" \
+-d note="cancel"  
