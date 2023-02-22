@@ -5,18 +5,56 @@ import re
 import argparse
 
 def sent_to_api(web_page, proxy, header, data):
+    status = 0
     if header == 'None':
-        response_post = requests.post(web_page, proxies=proxy, data=data)
-        response_get = requests.get(web_page, proxies=proxy, data=data)
-        response_put = requests.put(web_page, proxies=proxy, data=data)
+        try:
+            response_post = requests.post(web_page, proxies=proxy, data=data)
+            status = response_post.status_code
+            if str(status).startswith('5'):
+                print('HTTP/1.1 ', status, 'Internal Error')
+        except requests.exceptions.RequestException as e:
+            print('Error', e)
+        try:
+            response_get = requests.get(web_page, proxies=proxy, data=data)
+            status = response_get.status_code
+            if str(status).startswith('5'):
+                print('HTTP/1.1 ', status, 'Internal Error')
+        except requests.exceptions.RequestException as e:
+            print('Error', e)
+        try:
+            response_put = requests.put(web_page, proxies=proxy, data=data)
+            status = response_put.status_code
+            if str(status).startswith('5'):
+                print('HTTP/1.1 ', status, 'Internal Error')
+        except requests.exceptions.RequestException as e:
+            print('Error', e)
     else:
-        response_post = requests.post(web_page, proxies=proxy, headers=header, data=data)
-        response_get = requests.get(web_page, proxies=proxy, headers=header, data=data)
-        response_put = requests.put(web_page, proxies=proxy, headers=header, data=data)
-    print(response_post.content)
-    print(response_get.content)
-    print(response_put.content)
-    #print(web_page, header, data)
+        try:
+            response_post = requests.post(web_page, proxies=proxy, headers=header, data=data)
+            status = response_post.status_code
+            if str(status).startswith('5'):
+                print('HTTP/1.1 ', status, 'Internal Error')
+        except requests.exceptions.RequestException as e:
+            print('Error', e)
+        try:
+            response_get = requests.get(web_page, proxies=proxy, headers=header, data=data)
+            status = response_get.status_code
+            if str(status).startswith('5'):
+                print('HTTP/1.1 ', status, 'Internal Error')
+        except requests.exceptions.RequestException as e:
+            print('Error', e)
+        try:
+            response_put = requests.put(web_page, proxies=proxy, headers=header, data=data)
+            status = response_put.status_code
+            if str(status).startswith('5'):
+                print('HTTP/1.1 ', status, 'Internal Error')
+        except requests.exceptions.RequestException as e:
+            print('Error', e)
+    if not str(status).startswith('5'):
+        print(response_post.content)
+        print(response_get.content)
+        print(response_put.content)
+        #print(web_page, header, data)
 
 def convolute_api(text, proxy, fuzz_times = 0, auth_token = 'keep', fuzzy = False):
     f = open(text, "r")
@@ -74,7 +112,7 @@ def convolute_api(text, proxy, fuzz_times = 0, auth_token = 'keep', fuzzy = Fals
                             data_split[1] += '=' + data_split[i+2]
                     #['-d payment_method', '"alipay" \\ ']
                     # -d pos_local_time="2017-01-27 01:39:42"                
-                    textRegex = re.compile(r'https?://[^\s]+|\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}|[a-zA-Z0-9]+')
+                    textRegex = re.compile(r'https?://[^\s]+|\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}|[a-zA-Z0-9]+_[a-zA-Z0-9]+|[a-zA-Z0-9]+')
                     data_value = textRegex.findall(data_split[1])
                     if data_value[0][-1] == '"':
                         data_value[0] = data_value[0][:-1]
