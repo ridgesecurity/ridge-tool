@@ -4,6 +4,14 @@ import requests
 import re
 import argparse
 import webbrowser
+import json
+
+def is_json(myjson):
+  try:
+    json.loads(myjson)
+  except ValueError as e:
+    return False
+  return True
 
 def sent_to_api(web_page, proxy, header, data):
     status = 0
@@ -53,15 +61,27 @@ def sent_to_api(web_page, proxy, header, data):
             print('Error', e)
     if not str(status).startswith('5'):
         output = []
-        post_data = response_post.json()
+        #post
+        if is_json(response_post.content):
+            post_data = response_post.json()
+        else:
+            post_data = response_post.content
         output.append(post_data)
         print(post_data)
-        get_data = response_get.json()
+        #get
+        if is_json(response_get.content):
+            get_data = response_get.json()
+        else:
+            get_data = response_get.content
         output.append(get_data)
-        print(post_data)
-        put_data = response_put.json()
+        print(get_data)
+        #put
+        if is_json(response_put.content):
+            put_data = response_put.json()
+        else:
+            put_data = response_put.content
         output.append(put_data)
-        print(post_data)
+        print(put_data)
         '''
         for key in post_data:
             if key == 'url':
