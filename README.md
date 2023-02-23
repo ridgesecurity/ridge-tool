@@ -16,7 +16,7 @@ This is an inital implementaion of RidgeBot Auto API Testing Tool
 
 ### Certificate Setup
 
-You must install the Ridge ca.crt certificate on your device to be able to capture secure HTTPS traffic. First, set up the proxy in RdigeBot. Then follow the instructions below to install the required security certificate on the target devices.
+You must install the Ridge ca.crt certificate on your device to be able to capture secure HTTPS traffic. First, set up the proxy in RidgeBot. Then follow the instructions below to install the required security certificate on the target devices.
 
 #### Mac
 
