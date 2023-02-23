@@ -51,7 +51,7 @@ You must install the Ridge ca.crt certificate on your device to be able to captu
 ## Running
 
 ```
-usage: python3 api_conv.py [api_commands] [-p 'http://proxy_server:port'] [-f number_of_convolution]
+usage: python3 api_conv.py [api_commands] [-p 'http://proxy_server:port'] [-f conv#]
 python3 api_conv.py citcon_api.txt -p 'https://66.220.31.58:64458' -f 1
 ```
 
