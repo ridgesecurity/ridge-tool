@@ -10,7 +10,7 @@ This is an inital implementaion of RidgeBot Auto API Testing Tool
     - [Certificate Setup](#certificate-setup)
         - [Mac](#mac)
         - [Windows](#windows)
-- [Runing from Command Line](#running-from-command-line)
+- [Running](#running)
 
 ## Local Dependency Setup
 
@@ -48,12 +48,11 @@ You must install the Ridge ca.crt certificate on your device to be able to captu
 
 7. Select Finish to import the **certificate**.
 
-## Running from Command Line
-
-Example of running api_conv.py:
+## Running
 
 ```
-python3 api_conv.py api.txt -p 'http://addresss:port' -f 2
+usage: python3 api_conv.py [api_commands] [-p 'http://proxy_server:port'] [-f number_of_convolution]
+python3 api_conv.py citcon_api.txt -p 'https://66.220.31.58:64458' -f 1
 ```
 
 Note that api_conv.py requires a txt document of curl commands and a proxy server.
