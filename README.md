@@ -13,11 +13,15 @@ This is an inital implementaion of RidgeBot Auto API Testing Tool
 - [Runing from Command Line](#running-from-command-line)
 
 ## Local Dependency Setup
+
 ### Certificate Setup
+
+You must install the Ridge ca.crt certificate on your device to be able to capture secure HTTPS traffic. First, set up the proxy in RdigeBot. Then follow the instructions below to install the required security certificate on the target devices.
+
 #### Mac
 
 1. From RidgeBot download the certificate 
-    -![cert_down](img/cert_down.png)
+    ![cert_down](img/cert_down.png)
 
 2. Select **System** in the **Keychain** list, and then select **Add**. Enter your system password to confirm the action.
 
@@ -30,7 +34,7 @@ This is an inital implementaion of RidgeBot Auto API Testing Tool
 #### Windows
 
 1. From RidgeBot download the certificate 
-    -![cert_down](img/cert_down.png)
+    ![cert_down](img/cert_down.png)
 
 2. Right-click on the **ca.crt** file and select **Install Certificate**.
 
@@ -57,6 +61,6 @@ Note that api_conv.py requires a txt document of curl commands and a proxy serve
 For ridgebot the addresss is : 66.220.31.58
 
 The port can be found in the window of the proxy in ridgebot 
-    -![proxy_port](img/proxy_port.png)
+    ![proxy_port](img/proxy_port.png)
 
 See -help for further documentaion
