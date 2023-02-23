@@ -3,6 +3,7 @@ import string
 import requests
 import re
 import argparse
+import webbrowser
 
 def sent_to_api(web_page, proxy, header, data):
     status = 0
@@ -51,10 +52,23 @@ def sent_to_api(web_page, proxy, header, data):
         except requests.exceptions.RequestException as e:
             print('Error', e)
     if not str(status).startswith('5'):
-        print(response_post.content)
-        print(response_get.content)
-        print(response_put.content)
+        output = []
+        post_data = response_post.json()
+        output.append(post_data)
+        print(post_data)
+        get_data = response_get.json()
+        output.append(get_data)
+        print(post_data)
+        put_data = response_put.json()
+        output.append(put_data)
+        print(post_data)
+        '''
+        for key in post_data:
+            if key == 'url':
+                webbrowser.open(post_data[key], new=2)
+        '''
         #print(web_page, header, data)
+        return output
 
 def convolute_api(text, proxy, fuzz_times = 0, auth_token = 'keep', fuzzy = False):
     f = open(text, "r")
@@ -120,10 +134,10 @@ def convolute_api(text, proxy, fuzz_times = 0, auth_token = 'keep', fuzzy = Fals
             #if header empty
             if len(headers_dic) == 0:
                 print('\nTesting: ', web_page)
-                sent_to_api(web_page, proxies, 'None', data_dic)
+                api_response = sent_to_api(web_page, proxies, 'None', data_dic)
             else:
                 print('\nTesting: ', web_page)
-                sent_to_api(web_page, proxies, headers_dic, data_dic)
+                api_response = sent_to_api(web_page, proxies, headers_dic, data_dic)
             #for each header we want to fuzz
             for i in range(fuzz_times):
                 for key in headers_dic:
@@ -132,7 +146,7 @@ def convolute_api(text, proxy, fuzz_times = 0, auth_token = 'keep', fuzzy = Fals
                             headers_fuzz_dic = headers_dic.copy()
                             headers_fuzz_dic['Authorization'] = 'Bearer ' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=32))
                             print('fuzzing: ', key)
-                            sent_to_api(web_page, proxies, headers_fuzz_dic, data_dic)
+                            api_response = sent_to_api(web_page, proxies, headers_fuzz_dic, data_dic)
             #for each data we want to fuzz
             for i in range(fuzz_times):
                 for key in data_dic:
@@ -153,7 +167,8 @@ def convolute_api(text, proxy, fuzz_times = 0, auth_token = 'keep', fuzzy = Fals
                             data_fuzz_dic = data_dic.copy()
                             data_fuzz_dic[key] = temp
                             print('fuzzing: ', key)
-                            sent_to_api(web_page, proxies, headers_dic, data_fuzz_dic)
+                            api_response = sent_to_api(web_page, proxies, headers_dic, data_fuzz_dic)
+
 
 
 class CommandLine:
