@@ -44,7 +44,7 @@ This is an inital implementaion of RidgeBot Auto API Testing Tool
 
 7. Select Finish to import the **certificate**.
 
-## Runing from Command Line
+## Running from Command Line
 
 Example of running api_conv.py:
 
