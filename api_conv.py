@@ -6,6 +6,9 @@ import argparse
 import webbrowser
 import json
 
+import os
+os.environ['REQUESTS_CA_BUNDLE'] = 'ca.cert'
+
 def is_json(myjson):
   try:
     json.loads(myjson)
