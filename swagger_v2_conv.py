@@ -1,4 +1,4 @@
-## Swagger OpenApi 3.0
+## Swagger 2.0
 ## Please strictly follow Swagger documentation 
 ## Authorization token must be provided in authentication files
 
@@ -39,7 +39,17 @@ def convolute_api(swfile, proxy=None, fuzz_times = 0, authfile = None, fuzzy = F
         auth_data = {}
 
     # get base url
-    base_url = yaml_data['servers'][0]['url']
+    if 'host' in yaml_data:
+        if 'basePath' in yaml_data:
+            base_url = f"https://{yaml_data['host']}{yaml_data['basePath']}"
+        else:
+            base_url = f"https://{yaml_data['host']}"
+    else:
+        try:
+            base_url = auth_data['URL']
+        except KeyError as e:
+            return e
+        
 
     # find all calls that need authentication
     auth_api_calls = find_authenticated_api_calls(yaml_data)
@@ -77,6 +87,7 @@ def convolute_api(swfile, proxy=None, fuzz_times = 0, authfile = None, fuzzy = F
                 print(path + ' '+ method)
                 responses = send_request(path, method, base_url, yaml_data, proxies, auth_data, headers)
 
+
                 if type(responses) == requests.Response:
                     # print(responses.headers)
                     print(responses.content)
@@ -97,10 +108,12 @@ def find_authenticated_api_calls(yaml_data):
     if 'paths' in yaml_data:
         for path, path_yaml_data in yaml_data['paths'].items():
             for method, method_yaml_data in path_yaml_data.items():
-                if method_yaml_data.get('security'):
-                    authenticated_api_calls.append({
-                        'path': path,
-                        'method': method
+                if 'parameters' in method_yaml_data:
+                    for parameter in method_yaml_data['parameters']:
+                        if parameter['name'] == 'Authorization':
+                            authenticated_api_calls.append({
+                                'path': path,
+                                'method': method
                     })
     # list of dict
     return authenticated_api_calls
@@ -116,86 +129,85 @@ def is_json(myjson):
 
 def fuzzer(datatype):
     # TODO: add more fuzzer function
-    fuzz_dic = {'integer':10, 'string':'abc','array':['defalut array'],
+    fuzz_dic = {'integer':1, 'string':'abc','array':['defalut array'],
                 'boolean':True,'object':{'id':1},'number':3.14,
                 'file':'ridge_auth.json'}
     val = fuzz_dic[datatype]
     return val
 
 
-def get_referenced_schema(yaml_data, ref):
-    # Split the reference string to get the component and schema names
-    _, _, _, schema = ref.split('/')
-    # Retrieve the referenced schema from the components/schemas section
-    referenced_schema = yaml_data['components']['schemas'][schema]
+def type_array(items):
+    # for swagger 2.0 only
+    if 'example' in items:
+        return [items['example']]
+    elif 'default' in items:
+        return [items['default']]
+    elif items.get('type') == 'array':
+        return [type_array(items['items'])]
+    else:
+        return [fuzzer(items['type'])]
 
+
+def get_referenced_schema(yaml_data, ref):
+    _, location, schema = ref.split('/')
+    referenced_schema = yaml_data[location][schema]
     return referenced_schema
 
 
 def generate_data_from_schema(yaml_data,schema):
     json_data = {}
-    
-    for property_name, property_data in schema.get('properties', {}).items():
-        if 'default' in property_data:
+## check item when type = array  TODO define a new function to process types
+    if '$ref' in schema:
+        body_schema = get_referenced_schema(yaml_data,schema['$ref'])
+        json_data = generate_data_from_schema(yaml_data,body_schema)
+    else:
+        for property_name, property_data in schema['properties'].items():
+            if 'default' in property_data:
                 json_data[property_name] = property_data.get('default')
-        elif 'example' in property_data:
-            json_data[property_name] = property_data.get('example')
-        elif 'enum' in property_data:
-            json_data[property_name] = random.choice(property_data.get('enum'))
-        elif '$ref' in property_data:
-            ref =  property_data.get('$ref')
-            ref_schema = get_referenced_schema(yaml_data,ref)
-            ref_data = generate_data_from_schema(yaml_data,ref_schema)
-            json_data[property_name] = ref_data
-        else:
-            data_type = property_data.get('type')
-            if data_type == 'array':
-                if '$ref' in property_data['items']:
-                    ref = property_data['items']['$ref']
-                    body_schema = get_referenced_schema(yaml_data,ref)
-                    json_data[property_name] = [generate_data_from_schema(yaml_data,body_schema)]
+            elif 'example' in property_data:
+                json_data[property_name] = property_data.get('example')
+            elif 'enum' in property_data:
+                json_data[property_name] = random.choice(property_data.get('enum'))
+            elif 'type' in property_data:
+                if property_data['type'] == 'array':
+                    json_data[property_name] = type_array(property_data['items'])
                 else:
-                    json_data[property_name] = [fuzzer(property_data['items']['type'])]
-            else:
-                json_data[property_name] = fuzzer(data_type)
-
+                    json_data[property_name] = fuzzer(property_data['type'])
+            elif '$ref' in property_data:
+                ref_schema = get_referenced_schema(yaml_data,property_data['$ref'])
+                json_data = generate_data_from_schema(yaml_data,ref_schema)
     return json_data
 
 
-def add_to_header(header, auth_details):
-    if auth_details['type'] == 'http':
-        add_header = auth_details['scheme'] + auth_details['value']
-        header['Authorization'] = add_header
-    elif auth_details['type'] == 'oauth2':
-        add_header = 'Bearer' + auth_details['value']
-        header['Authorization'] = add_header
-    elif auth_details['type'] == 'apiKey':
-        if 'in' in auth_details:
-            if auth_details['in'] == 'cookie':
-                header['Cookie'] = auth_details['name'] +'=' + auth_details['value']
-        else:
-            header[auth_details['name']] = auth_details['value']
-    return header
+def add_to_header(headers, parameter , insertval):
+    # add more to header (changed)
+    if parameter['in'] == 'header':
+        headers.update({parameter['name']: insertval})
+    elif parameter['in'] == 'cookie':
+        inserval = f"{parameter['name']}={inserval}"
+        headers.update({'Cookie': inserval})
+    return headers
 
 
 def extract_header(headers,responses):
-    # api_key
-    response_api_key = responses.headers.get('X-API-KEY')
-    if not response_api_key:
-        if is_json(responses.content):
-            response_data = responses.json()
-            try:
-                response_api_key = response_data.get('api_key')
-            except AttributeError:
-                pass
-    if response_api_key:
-        headers.update({'X-API-KEY': response_api_key})
-
-    # cookie
-    cookie = responses.headers.get('Set-Cookie')
-    if cookie:
-        headers.update({'Cookie': cookie})
-
+    try:
+        # api_key
+        response_api_key = responses.headers.get('X-API-KEY')
+        if not response_api_key:
+            if is_json(responses.content):
+                response_data = responses.json()
+                try:
+                    response_api_key = response_data.get('api_key')
+                except AttributeError:
+                    pass
+        if response_api_key:
+            headers.update({'X-API-KEY': response_api_key})
+        # cookie
+        cookie = responses.headers.get('Set-Cookie')
+        if cookie:
+            headers.update({'Cookie': cookie})
+    except:
+        pass
     return headers
     
 
@@ -219,24 +231,30 @@ def send_request(path, method, base_url, yaml_data, proxy, auth_data, headers = 
         for parameter in method_data['parameters']:
 
             para_name = parameter['name']
-            if 'default' in parameter:
-                insertval = parameter.get('default')
-            elif 'example' in parameter:
-                insertval = parameter.get('example')
-            elif 'enum' in parameter['schema']:
-                insertval = random.choice(parameter['schema'].get('enum'))
-            elif parameter['schema']['type'] == 'array':
-                if '$ref' in parameter['schema']['items']:
-                    ref = parameter['schema']['items']['$ref']
-                    body_schema = get_referenced_schema(yaml_data,ref)
-                    insertval = [generate_data_from_schema(yaml_data,body_schema)]
-                else:
-                    insertval = [fuzzer(parameter['schema']['items']['type'])]
-            else:
-                insertval = fuzzer(parameter['schema']['type'])
-            
+
+            if para_name == "Authorization":
+                # read token from auth file
+                insertval = auth_data['Token']
              # add the parameter based on the 'in' position
+            else:
+                # generte insert value
+                if 'default' in parameter:
+                    insertval = parameter.get('default')
+                elif 'example' in parameter:
+                    insertval = parameter.get('example')
+                elif 'enum' in parameter:
+                    insertval = random.choice(parameter.get('enum'))
+                elif 'type' in parameter:
+                    if 'tyep' == 'array':
+                        insertval = type_array(parameter['items'])
+                    else:
+                        insertval = fuzzer(parameter['type'])
+                elif 'schema' in parameter:
+                    insertval = generate_data_from_schema(yaml_data,parameter['schema'])
+
+            # insert the value into the parameter
             if parameter['in'] == 'query':
+                # update path_query url
                 query_param = ''
                 if insertval != '':
                     if type(insertval) == list:
@@ -249,35 +267,17 @@ def send_request(path, method, base_url, yaml_data, proxy, auth_data, headers = 
                     else:
                         path_query = f"{path_query}&{query_param}"
             elif parameter['in'] == 'path':
+                # update path
                 placeholder = '{' + para_name + '}'
                 path = path.replace(placeholder, str(insertval))
-            elif parameter['in'] == 'header' or  parameter['in'] =='cookie':
-                if para_name in auth_data.keys():
-                    headers = add_to_header(headers,auth_data[para_name])
-                else:
-                    headers[para_name] = insertval
+            elif parameter['in'] == 'header' or parameter['in'] =='cookie':
+                # insert into header (authorizaiton is for HTTP bearer)
+                headers = add_to_header(headers, parameter , insertval)
+            elif parameter['in'] == 'body':
+                post_data.update(insertval)
         
     endpoint_url = base_url+path+path_query
 
-    # generate request body
-    if method in ['post', 'put']:
-        if 'requestBody' in method_data:
-            request_body = method_data['requestBody']
-            request_data = request_body['content']
-            for _, form_details in request_data.items():
-                if '$ref' in form_details['schema']:
-                    ref = form_details['schema']['$ref']
-                    body_schema = get_referenced_schema(yaml_data,ref)
-                    post_data = generate_data_from_schema(yaml_data,body_schema)
-                elif form_details['schema']['type'] == 'array':
-                    if '$ref' in form_details['schema']['items']:
-                        ref = form_details['schema']['items']['$ref']
-                        body_schema = get_referenced_schema(yaml_data,ref)
-                        post_data = [generate_data_from_schema(yaml_data,body_schema)]
-                    else:
-                        post_data = [fuzzer(form_details['schema']['type'])]
-                else:
-                    post_data  = fuzzer(form_details['schema']['type'])
     
     try:
         print(endpoint_url)
@@ -288,14 +288,14 @@ def send_request(path, method, base_url, yaml_data, proxy, auth_data, headers = 
         elif method == 'delete':
             response_get = requests.delete(endpoint_url, proxies=proxy,headers=headers,verify=False) 
         elif method == 'post':
-            response_get = requests.post(endpoint_url, proxies=proxy, headers=headers, json=post_data,verify=False)   
+            response_get = requests.post(endpoint_url, proxies=proxy,headers=headers, json=post_data,verify=False)   
         elif method == 'put':
-            response_get = requests.put(endpoint_url, proxies=proxy, headers=headers, json=post_data,verify=False)
+            response_get = requests.put(endpoint_url, proxies=proxy,headers=headers, json=post_data,verify=False)
         status = response_get.status_code
         if str(status).startswith('5'):
             print('HTTP/1.1 ', status, 'Internal Error')
             return response_get
-    except requests.exceptions.RequestException as e:
+    except (requests.exceptions.RequestException) as e:
         print('Error', e)
         return e
 
@@ -311,7 +311,7 @@ class CommandLine:
         # need to change to auth
         parser.add_argument("-a", "--auth_json", help = "Authorization data", required = False, default = None)
         parser.add_argument("-p", "--proxy", help = "Proxy Server to run on", required = False)
-        parser.add_argument("-f", "--fuzz_times", help = "Number of times to fuzz", required = False, default = 0)
+        parser.add_argument("-f", "--fuzz_times", help = "Number of times to fuzz", required = False, default = 0)  # TODO add fuzzing (not used yet)
         
         argument = parser.parse_args()
         convolute_api(argument.swagger_file, argument.proxy, int(argument.fuzz_times), argument.auth_json)
@@ -319,6 +319,6 @@ class CommandLine:
 
 if __name__ == '__main__':
     app = CommandLine()
-    #  convolute_api('examples/openapi.json', None, 0, 'examples/auth.json')
-    #  python3 swagger_conv.py examples/openapi.yaml -a examples/auth.json
+    # convolute_api('examples/ridgebot_api.json', None, 0, 'examples/ridge_auth.json')
+    # python3 swagger_v2_conv.py examples/ridgebot_api.json -a examples/ridge_auth.json
     

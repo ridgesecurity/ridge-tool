@@ -109,9 +109,8 @@ paths:
           explode: true
           schema:
             type: string
-            default: available
+            default: sold
             enum:
-              - available
               - pending
               - sold
       responses:
@@ -733,7 +732,6 @@ components:
           type: string
           description: pet status in the store
           enum:
-            - available
             - pending
             - sold
       xml:

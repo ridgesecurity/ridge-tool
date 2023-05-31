@@ -1,0 +1,4441 @@
+{
+  "definitions": {}, 
+  "info": {
+    "description": "Powered By RidgeBot", 
+    "termsOfService": "/tos", 
+    "title": "RidgeBot", 
+    "version": 4.0
+  }, 
+  "host": "172.30.101.49",
+  "basePath": "",
+  "paths": {
+    "/api/v4/assets/host": {
+      "get": {
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "default": 0, 
+            "description": "page size", 
+            "in": "query", 
+            "name": "size", 
+            "required": true, 
+            "type": "integer"
+          }, 
+          {
+            "default": 0, 
+            "description": "page num", 
+            "in": "query", 
+            "name": "page", 
+            "required": true, 
+            "type": "integer"
+          }, 
+          {
+            "default": "", 
+            "description": "search", 
+            "in": "query", 
+            "name": "search", 
+            "required": false, 
+            "type": "string"
+          }, 
+          {
+            "default": "", 
+            "description": "asc_field", 
+            "in": "query", 
+            "name": "asc_field", 
+            "required": false, 
+            "type": "string"
+          }, 
+          {
+            "default": "", 
+            "description": "asc", 
+            "in": "query", 
+            "name": "asc", 
+            "required": false, 
+            "type": "string"
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "properties": {
+                    "ace_plus": {
+                      "description": "true  or false", 
+                      "example": "true", 
+                      "type": "boolean"
+                    }, 
+                    "info": {
+                      "description": "host info", 
+                      "items": {
+                        "properties": {
+                          "alive": {
+                            "description": "0: unknown 1: not alive 2: alive", 
+                            "example": 0, 
+                            "type": "integer"
+                          }, 
+                          "create_time": {
+                            "example": 1642313435, 
+                            "type": "integer"
+                          }, 
+                          "domain": {
+                            "description": "domain", 
+                            "type": "string"
+                          }, 
+                          "hostname": {
+                            "default": "Null", 
+                            "example": "localhost", 
+                            "type": "string"
+                          }, 
+                          "ip": {
+                            "example": "192.168.1.42", 
+                            "type": "string"
+                          }, 
+                          "is_alive": {
+                            "description": "0:Install 1:Online", 
+                            "type": "integer"
+                          }, 
+                          "origin": {
+                            "description": "origin", 
+                            "type": "string"
+                          }, 
+                          "os": {
+                            "example": "Null", 
+                            "type": "string"
+                          }, 
+                          "owner_name": {
+                            "description": "operator", 
+                            "type": "string"
+                          }, 
+                          "port": {
+                            "description": "port", 
+                            "type": "integer"
+                          }, 
+                          "product": {
+                            "description": "product", 
+                            "type": "string"
+                          }, 
+                          "protocol": {
+                            "description": "protocol", 
+                            "type": "string"
+                          }, 
+                          "tags": {
+                            "example": [
+                              "windows"
+                            ], 
+                            "items": {
+                              "description": "tag description", 
+                              "type": "string"
+                            }, 
+                            "type": "array"
+                          }, 
+                          "update_time": {
+                            "example": 1642313435, 
+                            "type": "integer"
+                          }
+                        }, 
+                        "type": "object"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "total": {
+                      "description": "total page num", 
+                      "type": "integer"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "get host", 
+        "tags": [
+          "assets"
+        ]
+      }
+    }, 
+    "/api/v4/assets/host/delete": {
+      "post": {
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "properties": {
+                "ips": {
+                  "description": "asset_host ip", 
+                  "items": {
+                    "description": "asset_host ip", 
+                    "example": "192.168.1.42", 
+                    "required": true, 
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }
+              }, 
+              "required": [
+                "ips"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "example": {}, 
+                  "properties": {}, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "delete host", 
+        "tags": [
+          "assets"
+        ]
+      }
+    }, 
+    "/api/v4/assets/host/input": {
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ], 
+        "description": "example:<br/>|ip|hostname|os|<br/>|192.168.1.43|a43|b43|<br/>|192.168.1.44|a44|b44|<br/>'''", 
+        "parameters": [
+          {
+            "default": 0, 
+            "description": "0: No 1: Yes", 
+            "example": 0, 
+            "in": "formData", 
+            "name": "overwrite", 
+            "required": true, 
+            "type": "integer"
+          }, 
+          {
+            "description": "file to upload", 
+            "in": "formData", 
+            "name": "file", 
+            "required": true, 
+            "type": "file"
+          }, 
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }
+        ], 
+        "produces": [
+          "application/json"
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "example": {}, 
+                  "properties": {}, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "import mode: csv", 
+        "tags": [
+          "assets"
+        ]
+      }
+    }, 
+    "/api/v4/assets/host/update": {
+      "post": {
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "properties": {
+                "hostname": {
+                  "example": "localhost", 
+                  "type": "string"
+                }, 
+                "ip": {
+                  "example": "192.168.1.42", 
+                  "required": true, 
+                  "type": "string"
+                }, 
+                "os": {
+                  "example": "windows", 
+                  "type": "string"
+                }, 
+                "owner": {
+                  "description": "operator_id", 
+                  "type": "integer"
+                }, 
+                "tags": {
+                  "example": [
+                    "windows"
+                  ], 
+                  "items": {
+                    "description": "tag description", 
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }
+              }, 
+              "required": [
+                "ip", 
+                "tags", 
+                "hostname", 
+                "os", 
+                "owner"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "example": {}, 
+                  "properties": {}, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "Ip unique Value\uff0cUpdate Other Attribute", 
+        "tags": [
+          "assets"
+        ]
+      }
+    }, 
+    "/api/v4/assets/site/add": {
+      "post": {
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "properties": {
+                "ip": {
+                  "example": "192.168.1.42", 
+                  "type": "string"
+                }, 
+                "overwrite": {
+                  "default": 0, 
+                  "description": "0: No 1: Yes", 
+                  "type": "integer"
+                }, 
+                "service": {
+                  "example": "PHP 5.6.40, MySQL/phpMyAdmin", 
+                  "type": "string"
+                }, 
+                "site": {
+                  "description": "asset_sites sites", 
+                  "example": "http://192.168.1.42/", 
+                  "required": true, 
+                  "type": "string"
+                }, 
+                "tags": {
+                  "example": [
+                    "windows"
+                  ], 
+                  "items": {
+                    "description": "tag description", 
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }, 
+                "title": {
+                  "example": "ridgebot test", 
+                  "type": "string"
+                }
+              }, 
+              "required": [
+                "sites", 
+                "title", 
+                "ip", 
+                "service", 
+                "tags", 
+                "overwrite"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "example": {}, 
+                  "properties": {}, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "add sites", 
+        "tags": [
+          "assets"
+        ]
+      }
+    }, 
+    "/api/v4/assets/site/delete": {
+      "post": {
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "properties": {
+                "sites": {
+                  "description": "asset_sites sites", 
+                  "items": {
+                    "description": "asset_sites sites", 
+                    "example": "http://192.168.1.42/", 
+                    "required": true, 
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }
+              }, 
+              "required": [
+                "sites"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "example": {}, 
+                  "properties": {}, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "delete sites", 
+        "tags": [
+          "assets"
+        ]
+      }
+    }, 
+    "/api/v4/assets/site/input": {
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ], 
+        "description": "example:<br/>|site|<br/>|http://192.168.1.43/|<br/>|http://192.168.1.44/|", 
+        "parameters": [
+          {
+            "description": "file to upload", 
+            "in": "formData", 
+            "name": "file", 
+            "required": true, 
+            "type": "file"
+          }, 
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }
+        ], 
+        "produces": [
+          "application/json"
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "example": {}, 
+                  "properties": {}, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "import mode: csv", 
+        "tags": [
+          "assets"
+        ]
+      }
+    }, 
+    "/api/v4/assets/site/update": {
+      "post": {
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "properties": {
+                "ip": {
+                  "example": "192.168.1.42", 
+                  "type": "string"
+                }, 
+                "owner": {
+                  "description": "operator_id", 
+                  "type": "integer"
+                }, 
+                "service": {
+                  "example": "PHP 5.6.40, MySQL/phpMyAdmin", 
+                  "type": "string"
+                }, 
+                "site": {
+                  "description": "asset_sites sites", 
+                  "example": "http://192.168.1.42/", 
+                  "required": true, 
+                  "type": "string"
+                }, 
+                "tags": {
+                  "example": [
+                    "windows"
+                  ], 
+                  "items": {
+                    "description": "tag description", 
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }, 
+                "title": {
+                  "example": "ridgebot test", 
+                  "type": "string"
+                }
+              }, 
+              "required": [
+                "site", 
+                "tags", 
+                "title", 
+                "ip", 
+                "service", 
+                "owner"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "example": {}, 
+                  "properties": {}, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "update sites", 
+        "tags": [
+          "assets"
+        ]
+      }
+    }, 
+    "/api/v4/assets/user": {
+      "get": {
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "properties": {
+                    "info": {
+                      "description": "get user", 
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "example": "1", 
+                            "type": "integer"
+                          }, 
+                          "name": {
+                            "example": "admin", 
+                            "type": "string"
+                          }
+                        }, 
+                        "type": "object"
+                      }, 
+                      "type": "array"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "get user", 
+        "tags": [
+          "assets"
+        ]
+      }
+    }, 
+    "/api/v4/assets/{doc_type}": {
+      "get": {
+        "parameters": [
+          {
+            "description": "doc_type host/port/site/domain/session", 
+            "in": "path", 
+            "name": "doc_type", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "default": 10, 
+            "description": "page size", 
+            "in": "query", 
+            "name": "size", 
+            "type": "integer"
+          }, 
+          {
+            "default": 1, 
+            "description": "page num", 
+            "in": "query", 
+            "name": "page", 
+            "type": "integer"
+          }, 
+          {
+            "default": "", 
+            "description": "search", 
+            "in": "query", 
+            "name": "search", 
+            "required": false, 
+            "type": "string"
+          }, 
+          {
+            "default": "", 
+            "description": "asc_field", 
+            "in": "query", 
+            "name": "asc_field", 
+            "required": false, 
+            "type": "string"
+          }, 
+          {
+            "default": "", 
+            "description": "asc", 
+            "in": "query", 
+            "name": "asc", 
+            "required": false, 
+            "type": "string"
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "properties": {
+                    "info": {
+                      "description": "host info", 
+                      "items": {
+                        "properties": {
+                          "create_time": {
+                            "example": 1642313435, 
+                            "type": "integer"
+                          }, 
+                          "ip": {
+                            "example": "192.168.1.42", 
+                            "type": "string"
+                          }, 
+                          "owner": {
+                            "description": "operator_id", 
+                            "type": "integer"
+                          }, 
+                          "owner_name": {
+                            "description": "operator", 
+                            "type": "string"
+                          }, 
+                          "service": {
+                            "example": "PHP 5.6.40, MySQL/phpMyAdmin", 
+                            "type": "string"
+                          }, 
+                          "site": {
+                            "example": "http://192.168.1.42/", 
+                            "type": "string"
+                          }, 
+                          "tags": {
+                            "example": [
+                              "windows"
+                            ], 
+                            "items": {
+                              "description": "tag description", 
+                              "type": "string"
+                            }, 
+                            "type": "array"
+                          }, 
+                          "title": {
+                            "example": "ridgebot test", 
+                            "type": "string"
+                          }, 
+                          "update_time": {
+                            "example": 1642313435, 
+                            "type": "integer"
+                          }
+                        }, 
+                        "type": "object"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "total": {
+                      "description": "total page num", 
+                      "type": "integer"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "get sites", 
+        "tags": [
+          "assets"
+        ]
+      }
+    }, 
+    "/api/v4/code": {
+      "get": {
+        "description": "This API is used for Error code mappings", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "default": {}, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "tags": [
+          "ErrorCode"
+        ]
+      }
+    }, 
+    "/api/v4/report/download": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ], 
+        "description": ":return:", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "properties": {
+                "ids": {
+                  "description": "report ids", 
+                  "items": {
+                    "description": "report id", 
+                    "example": 51, 
+                    "type": "integer"
+                  }, 
+                  "type": "array"
+                }, 
+                "password": {
+                  "description": "base64 encrypt", 
+                  "example": "", 
+                  "type": "string"
+                }
+              }, 
+              "required": [
+                "ids", 
+                "password"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "properties": {
+                    "report": {
+                      "description": "report generation status", 
+                      "type": "boolean"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "Download the report", 
+        "tags": [
+          "report"
+        ]
+      }
+    }, 
+    "/api/v4/report/generate": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ], 
+        "description": ":return:", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "example": {
+                "custom_logo": 0, 
+                "language": 1, 
+                "report_data": {
+                  "assets_details": true, 
+                  "basic_info": {
+                    "config_profiles": true, 
+                    "executive_summary": true
+                  }, 
+                  "filter_con": {
+                    "filter_type": "last", 
+                    "frequency": "weeks", 
+                    "times": 4
+                  }, 
+                  "penetration_result": {
+                    "risk_details": true
+                  }, 
+                  "vulnerability_level": {
+                    "high": true, 
+                    "info": true, 
+                    "low": true, 
+                    "medium": true
+                  }
+                }, 
+                "task_id": "5236c68a-8ea5-11eb-a760-0050569a96bd", 
+                "template": 0, 
+                "type": "pdf"
+              }, 
+              "properties": {
+                "custom_logo": {
+                  "default": 0, 
+                  "description": "whether to use custom logo", 
+                  "example": 0, 
+                  "type": "integer"
+                }, 
+                "filter_con": {
+                  "properties": {
+                    "filter_type": {
+                      "description": "last all", 
+                      "type": "string"
+                    }, 
+                    "frequency": {
+                      "description": "months weeks", 
+                      "type": "string"
+                    }, 
+                    "times": {
+                      "default": 4, 
+                      "description": "times", 
+                      "type": "boolean"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "language": {
+                  "default": 1, 
+                  "description": "select international language, 1: english 2: korean 3: spanish ", 
+                  "type": "integer"
+                }, 
+                "report_data": {
+                  "properties": {
+                    "assets_details": {
+                      "type": "boolean"
+                    }, 
+                    "basic_info": {
+                      "properties": {
+                        "config_profiles": {
+                          "type": "boolean"
+                        }, 
+                        "executive_summary": {
+                          "type": "boolean"
+                        }
+                      }, 
+                      "type": "object"
+                    }, 
+                    "penetration_result": {
+                      "properties": {
+                        "risk_details": {
+                          "type": "boolean"
+                        }
+                      }, 
+                      "type": "object"
+                    }, 
+                    "vulnerability_level": {
+                      "properties": {
+                        "high": {
+                          "type": "boolean"
+                        }, 
+                        "low": {
+                          "type": "boolean"
+                        }, 
+                        "medium": {
+                          "type": "boolean"
+                        }
+                      }, 
+                      "type": "object"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "task_id": {
+                  "description": "task id", 
+                  "type": "string"
+                }, 
+                "template": {
+                  "description": "template:\n0 Custom\n1 Summary\n2 Detail\n3 RawDatar \n4Develope \n5 OWASP Top-10:2017\n6 OWASP Top-10:2021\n7 Template Attack Surface", 
+                  "type": "integer"
+                }, 
+                "type": {
+                  "description": "report type: html, pdf, csv", 
+                  "example": "html", 
+                  "type": "string"
+                }
+              }, 
+              "required": [
+                "task_id", 
+                "type", 
+                "template", 
+                "language", 
+                "custom_logo"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "example": {
+                "code": 0, 
+                "data": {
+                  "report_id": 6
+                }, 
+                "location": 6, 
+                "msg": "success"
+              }, 
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "description": "reports", 
+                  "properties": {
+                    "report_id": {
+                      "type": "integer"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "Generate a report", 
+        "tags": [
+          "report"
+        ]
+      }
+    }, 
+    "/api/v4/tasks": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ], 
+        "description": "create task,configure task basic information", 
+        "parameters": [
+          {
+            "default": "Your-RidgeBot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "properties": {
+                "access_control_policy": {
+                  "description": "access control policy", 
+                  "properties": {
+                    "bypassuac": {
+                      "default": false, 
+                      "description": "whether to open bypass uac", 
+                      "type": "boolean"
+                    }, 
+                    "elevateed_privileges": {
+                      "default": false, 
+                      "description": "whether to elevate privileges", 
+                      "type": "boolean"
+                    }, 
+                    "is_migration_permissions": {
+                      "default": false, 
+                      "description": "whether to open migration permissions", 
+                      "properties": {}, 
+                      "type": "object"
+                    }, 
+                    "local_info": {
+                      "default": [], 
+                      "description": "local info", 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "unstable_elevate_privileges": {
+                      "default": false, 
+                      "description": "whether to open unstable elevate privileges", 
+                      "type": "boolean"
+                    }
+                  }, 
+                  "required": [
+                    "elevate_privileges", 
+                    "unstable_elevate_privileges", 
+                    "bypassuac", 
+                    "is_migration_permissions", 
+                    "local_info"
+                  ], 
+                  "type": "object"
+                }, 
+                "attack_mode": {
+                  "default": 1, 
+                  "description": "1->Automatic decision making 2-> Manual decision-making", 
+                  "example": 1, 
+                  "type": "integer"
+                }, 
+                "attack_policy": {
+                  "description": "attack policy", 
+                  "properties": {
+                    "exp_priority": {
+                      "default": 0, 
+                      "description": "exploit priority", 
+                      "type": "integer"
+                    }, 
+                    "is_open_exp": {
+                      "default": 0, 
+                      "description": "whether to open exploit", 
+                      "type": "boolean"
+                    }, 
+                    "is_open_exp_evade": {
+                      "default": true, 
+                      "description": "whether to open exploit evade", 
+                      "type": "boolean"
+                    }
+                  }, 
+                  "required": [
+                    "is_open_exp", 
+                    "is_open_exp_evade", 
+                    "exp_priority"
+                  ], 
+                  "type": "object"
+                }, 
+                "attack_range": {
+                  "default": [], 
+                  "description": "web tempalte, attack range ", 
+                  "items": {
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }, 
+                "blacklist": {
+                  "default": [], 
+                  "description": "the target exclusion list", 
+                  "example": [], 
+                  "items": {
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }, 
+                "blind_test": {
+                  "default": {}, 
+                  "description": "blind test configuration", 
+                  "properties": {
+                    "client": {
+                      "description": "client configuration", 
+                      "properties": {
+                        "dns_address": {
+                          "description": "DNS address", 
+                          "type": "string"
+                        }, 
+                        "http_address": {
+                          "description": "HTTP address", 
+                          "type": "string"
+                        }, 
+                        "tcp_address": {
+                          "description": "TCP address", 
+                          "type": "string"
+                        }
+                      }, 
+                      "type": "object"
+                    }, 
+                    "local_hosts": {
+                      "description": "lcoal host", 
+                      "items": {
+                        "description": "local ip", 
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "server": {
+                      "description": "server configuration", 
+                      "properties": {
+                        "data_durationn": {
+                          "description": "data duration", 
+                          "type": "integer"
+                        }, 
+                        "dns_domain": {
+                          "description": "DNS domain", 
+                          "type": "string"
+                        }, 
+                        "http_port": {
+                          "description": "HTTP port", 
+                          "type": "integer"
+                        }, 
+                        "listen_ip": {
+                          "description": "listen IP", 
+                          "type": "string"
+                        }, 
+                        "tcp_end_port": {
+                          "type": "integer"
+                        }, 
+                        "tcp_start_port": {
+                          "type": "integer"
+                        }
+                      }, 
+                      "type": "object"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "burst_policy": {
+                  "description": "password burst strategy", 
+                  "properties": {
+                    "assist_recognition": {
+                      "default": 0, 
+                      "description": "assist recognition, 0: password guess 1: password spraying", 
+                      "type": "integer"
+                    }, 
+                    "is_open_bf": {
+                      "default": 1, 
+                      "description": "Todo: Whether to turn on brute force", 
+                      "type": "integer"
+                    }, 
+                    "services": {
+                      "default": [
+                        "FTP", 
+                        "SSH", 
+                        "TELNET", 
+                        "SNMP", 
+                        "SMB", 
+                        "MSSQL", 
+                        "ORACLE", 
+                        "MYSQL", 
+                        "RDP", 
+                        "POSTGRESQL", 
+                        "VNC", 
+                        "COUCHDB", 
+                        "REDIS", 
+                        "INFLUXDB", 
+                        "DB2"
+                      ], 
+                      "description": "services type", 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }
+                  }, 
+                  "required": [
+                    "is_open_bf", 
+                    "assist_recognition", 
+                    "services"
+                  ], 
+                  "type": "object"
+                }, 
+                "cycle_plan": {
+                  "default": 0, 
+                  "description": "execute plan(0 / 1/ 2/ 3 )", 
+                  "type": "integer"
+                }, 
+                "detect_policy": {
+                  "description": "detection policy", 
+                  "properties": {
+                    "flow_control": {
+                      "default": 3, 
+                      "description": "flow control, 1: stealthy 2: intermediate 3: normail 4: noisy", 
+                      "type": "integer"
+                    }, 
+                    "is_detect_ul": {
+                      "default": 1, 
+                      "description": "Whether to detect unstable vulnerabilities, 1: true 0: false", 
+                      "type": "integer"
+                    }, 
+                    "is_filter_wd": {
+                      "default": true, 
+                      "description": "Whether to filter vulnerable devices, true or false", 
+                      "type": "boolean"
+                    }, 
+                    "is_open_ad": {
+                      "default": 1, 
+                      "description": "Whether to detect unstable vulnerabilities, 1: true 0: false", 
+                      "type": "integer"
+                    }, 
+                    "max_connections": {
+                      "default": 0, 
+                      "description": "todo: The maximum number of connections", 
+                      "type": "integer"
+                    }, 
+                    "vul_priority": {
+                      "default": 0, 
+                      "description": "vulnerability priority 0 -> speed 1 -> output", 
+                      "type": "integer"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "grab_mode": {
+                  "default": 0, 
+                  "description": "grab mode  (0->crawler mode /  1-> proxy mode)", 
+                  "type": "integer"
+                }, 
+                "is_config_email": {
+                  "default": false, 
+                  "type": "boolean"
+                }, 
+                "name": {
+                  "description": "task name", 
+                  "example": "test task", 
+                  "type": "string"
+                }, 
+                "post_penetration_conf": {
+                  "description": "post pentration configure", 
+                  "properties": {
+                    "exclude": {
+                      "default": [], 
+                      "description": "exclude attack", 
+                      "example": [], 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "investigation_depth": {
+                      "default": 3, 
+                      "description": "investigation depth", 
+                      "example": 3, 
+                      "type": "integer"
+                    }, 
+                    "lateral_attack": {
+                      "default": true, 
+                      "description": "whether to open lateral attack", 
+                      "type": "boolean"
+                    }, 
+                    "lateral_range": {
+                      "default": [], 
+                      "description": "lateral range", 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "max_penetrated_host": {
+                      "default": 10, 
+                      "description": "max penetrated host", 
+                      "example": 10, 
+                      "type": "integer"
+                    }
+                  }, 
+                  "required": [
+                    "lateral_attack", 
+                    "lateral_range", 
+                    "exclude", 
+                    "max_penetrated_host", 
+                    "investigation_depth"
+                  ], 
+                  "type": "object"
+                }, 
+                "receiver_email": {
+                  "default": [], 
+                  "description": "receiver email", 
+                  "example": [], 
+                  "items": {
+                    "description": "email address", 
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }, 
+                "schedule": {
+                  "properties": {
+                    "end_date": {
+                      "default": "", 
+                      "description": "end date", 
+                      "example": "", 
+                      "type": "string"
+                    }, 
+                    "pause_check": {
+                      "default": 0, 
+                      "description": "pause check", 
+                      "example": 0, 
+                      "type": "integer"
+                    }, 
+                    "pause_end": {
+                      "default": "", 
+                      "description": "pause end", 
+                      "example": "", 
+                      "type": "string"
+                    }, 
+                    "pause_start": {
+                      "default": "", 
+                      "description": "pause start", 
+                      "example": "", 
+                      "type": "string"
+                    }, 
+                    "pending_time": {
+                      "default": "", 
+                      "description": "pending time", 
+                      "example": "", 
+                      "type": "string"
+                    }, 
+                    "rate": {
+                      "default": [], 
+                      "description": "serverity", 
+                      "example": [], 
+                      "items": {
+                        "type": "integer"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "time": {
+                      "default": "", 
+                      "description": "start time", 
+                      "example": "", 
+                      "type": "string"
+                    }, 
+                    "type": {
+                      "default": "no", 
+                      "description": " schedule type", 
+                      "example": "no", 
+                      "type": "string"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "service_detect_policy": {
+                  "description": "\\u670d\\u52a1\\u4fa6\\u67e5\\u7b56\\u7565", 
+                  "properties": {
+                    "auxiliary_protocols": {
+                      "default": [
+                        "dns", 
+                        "ftp", 
+                        "imap", 
+                        "mssql", 
+                        "nntp", 
+                        "ntp", 
+                        "pop3", 
+                        "rdp", 
+                        "smb", 
+                        "smtp", 
+                        "snmp", 
+                        "ssh", 
+                        "telnet", 
+                        "http", 
+                        "https"
+                      ], 
+                      "description": "auxiliary protocols", 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "host_timeout": {
+                      "default": 3600, 
+                      "description": "hsot timeout", 
+                      "type": "integer"
+                    }, 
+                    "info_extract": {
+                      "default": [], 
+                      "description": "info extract", 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "is_overwrite": {
+                      "default": 1, 
+                      "description": "Overwrite the association between task asset management and manually adding operating system and hostname(0->not overwrite/  1-> overwrite)", 
+                      "type": "integer"
+                    }, 
+                    "scan_method": {
+                      "default": "TCP_SYN_UDP", 
+                      "description": "scan method,SYN ACK UDP FIN", 
+                      "example": "TCP_SYN_UDP", 
+                      "type": "string"
+                    }, 
+                    "scan_port_method": {
+                      "default": "usual_tcp_port", 
+                      "description": "scan port method: usual_port all_port custom_port usual_tcp_port", 
+                      "example": "usual_tcp_port", 
+                      "type": "string"
+                    }, 
+                    "scan_ports": {
+                      "default": "T:1,2-4,....", 
+                      "description": "scan ports", 
+                      "example": "T:1,2-4,....", 
+                      "type": "string"
+                    }, 
+                    "scan_retry": {
+                      "default": 3, 
+                      "description": "scan retry 3-5", 
+                      "type": "integer"
+                    }, 
+                    "service_analysis_level": {
+                      "default": 7, 
+                      "description": "service analysis level (0 / 7/ 9) -> quick / optinum/ total", 
+                      "type": "integer"
+                    }, 
+                    "use_host_discovery": {
+                      "default": true, 
+                      "description": "whether use host discovery  True or False", 
+                      "type": "boolean"
+                    }
+                  }, 
+                  "required": [
+                    "auxiliary_protocols", 
+                    "info_extract", 
+                    "scan_method", 
+                    "scan_port_method", 
+                    "scan_ports", 
+                    "host_timeout", 
+                    "scan_retry", 
+                    "use_host_discovery", 
+                    "service_analysis_level"
+                  ], 
+                  "type": "object"
+                }, 
+                "session_policy": {
+                  "properties": {
+                    "clean_date": {
+                      "description": "", 
+                      "example": "", 
+                      "type": "string"
+                    }, 
+                    "clean_mode": {
+                      "description": "clean mode 0--> auto clean 1--> timed clean", 
+                      "type": "integer"
+                    }, 
+                    "rc_addr": {
+                      "default": "127.0.0.1", 
+                      "description": "reverse address", 
+                      "type": "string"
+                    }, 
+                    "rc_eport": {
+                      "default": 41000, 
+                      "description": "reverse end port", 
+                      "type": "integer"
+                    }, 
+                    "rc_mode": {
+                      "default": 0, 
+                      "description": "reverse connection mode", 
+                      "type": "integer"
+                    }, 
+                    "rc_sport": {
+                      "default": 40000, 
+                      "description": "reverse start port", 
+                      "type": "integer"
+                    }
+                  }, 
+                  "required": [
+                    "clean_mode", 
+                    "rc_sport", 
+                    "rc_eport", 
+                    "rc_addr"
+                  ], 
+                  "type": "object"
+                }, 
+                "summary": {
+                  "default": "", 
+                  "description": "task description information", 
+                  "example": "test task summary", 
+                  "type": "string"
+                }, 
+                "targets": {
+                  "description": "task target", 
+                  "example": [
+                    "192.168.1.1", 
+                    "192.168.1.2"
+                  ], 
+                  "items": {
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }, 
+                "template_id": {
+                  "description": "the task template id, \n1: Full Penetration \n2: Website Penetration \n3:Intranet Penetration \n4:Weak Credential Exploit \n5. 3rd Party Framwork Penetration Testing\n6.Attack Surface Exposure\n 7.Ransomware Attack Simulation ", 
+                  "example": 1, 
+                  "type": "integer"
+                }, 
+                "vul_policy": {
+                  "properties": {
+                    "components": {
+                      "description": "component list", 
+                      "example": [
+                        20001, 
+                        20003
+                      ], 
+                      "items": {
+                        "type": "integer"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "miter": {
+                      "default": [], 
+                      "description": "MITER", 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "ostype": {
+                      "default": [
+                        0, 
+                        1, 
+                        2
+                      ], 
+                      "description": " os type", 
+                      "items": {
+                        "type": "integer"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "severity": {
+                      "default": [
+                        1, 
+                        2, 
+                        3, 
+                        0
+                      ], 
+                      "description": "serverity", 
+                      "items": {
+                        "type": "integer"
+                      }, 
+                      "type": "array"
+                    }
+                  }, 
+                  "required": [
+                    "ostype", 
+                    "severity", 
+                    "components"
+                  ], 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "name", 
+                "targets", 
+                "template_id"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "properties": {
+                    "task_id": {
+                      "description": "data", 
+                      "example": "2a4e3098-55b2-11ec-a120-0050569a5545", 
+                      "type": "string"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "Create the task", 
+        "tags": [
+          "task management"
+        ]
+      }
+    }, 
+    "/api/v4/tasks/ace/linkage": {
+      "post": {
+        "description": "get ace task groups->technique->tactics linkage", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "properties": {
+                "flag": {
+                  "description": "group or tactics or technique", 
+                  "example": "group", 
+                  "type": "string"
+                }, 
+                "group": {
+                  "example": [
+                    {
+                      "name": "APT28", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "APT29", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Darkhotel", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "GALLIUM", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "MuddyWater", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Silence", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "TA505", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Turla", 
+                      "status": 2
+                    }
+                  ], 
+                  "items": {
+                    "properties": {
+                      "name": {
+                        "description": "groups name", 
+                        "type": "string"
+                      }, 
+                      "status": {
+                        "description": "groups check status 1->uncheck 2->check", 
+                        "type": "integer"
+                      }
+                    }, 
+                    "type": "object"
+                  }, 
+                  "type": "array"
+                }, 
+                "name": {
+                  "description": "group or tactics or technique name", 
+                  "example": "APT28", 
+                  "type": "string"
+                }, 
+                "scene": {
+                  "description": "ace task scene", 
+                  "example": "endpoint", 
+                  "type": "string"
+                }, 
+                "status": {
+                  "description": "1 ->unchecked, 2 ->checked", 
+                  "example": 1, 
+                  "type": "integer"
+                }, 
+                "tactics": {
+                  "example": [
+                    {
+                      "name": "Reconnaissance", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Resource Development", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Initial Access", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Persistence", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Privilege Escalation", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Defense Evasion", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Credential Access", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Discovery", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Lateral Movement", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Collection", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Command and Control", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Exfiltration", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Impact", 
+                      "status": 2
+                    }
+                  ], 
+                  "items": {
+                    "properties": {
+                      "name": {
+                        "description": "tactics name", 
+                        "type": "string"
+                      }, 
+                      "status": {
+                        "description": "tactics check status 1->uncheck 2->check", 
+                        "type": "integer"
+                      }
+                    }, 
+                    "type": "object"
+                  }, 
+                  "type": "array"
+                }, 
+                "technique": {
+                  "example": [
+                    {
+                      "name": "T1091", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "T1090", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "T1092", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "T1095", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "T1098", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "T1201", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "T1202", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "T1203", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "T1204", 
+                      "status": 2
+                    }
+                  ], 
+                  "items": {
+                    "properties": {
+                      "name": {
+                        "description": "techniques name", 
+                        "type": "string"
+                      }, 
+                      "status": {
+                        "description": "techniques check status 1->uncheck 2->check", 
+                        "type": "integer"
+                      }
+                    }, 
+                    "type": "object"
+                  }, 
+                  "type": "array"
+                }
+              }, 
+              "required": [
+                "scene"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "example": {
+                "code": 0, 
+                "data": {
+                  "group": [
+                    {
+                      "name": "APT28", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "APT29", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Darkhotel", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "GALLIUM", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "MuddyWater", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Silence", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "TA505", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Turla", 
+                      "status": 2
+                    }
+                  ], 
+                  "tactics": [
+                    {
+                      "name": "Reconnaissance", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Resource Development", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Initial Access", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Persistence", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Privilege Escalation", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Defense Evasion", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Credential Access", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Discovery", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Lateral Movement", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Collection", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Command and Control", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Exfiltration", 
+                      "status": 2
+                    }, 
+                    {
+                      "name": "Impact", 
+                      "status": 2
+                    }
+                  ], 
+                  "technique": [
+                    {
+                      "name": "T1091", 
+                      "status": 2, 
+                      "value": "Replication Through Removable Media"
+                    }, 
+                    {
+                      "name": "T1090", 
+                      "status": 2, 
+                      "value": "Proxy"
+                    }, 
+                    {
+                      "name": "T1092", 
+                      "status": 2, 
+                      "value": "Communication Through Removable Media"
+                    }, 
+                    {
+                      "name": "T1095", 
+                      "status": 2, 
+                      "value": "Non-Application Layer Protocol"
+                    }, 
+                    {
+                      "name": "T1098", 
+                      "status": 2, 
+                      "value": "Account Manipulation"
+                    }, 
+                    {
+                      "name": "T1201", 
+                      "status": 2, 
+                      "value": "Password Policy Discovery"
+                    }, 
+                    {
+                      "name": "T1202", 
+                      "status": 2, 
+                      "value": "Indirect Command Execution"
+                    }, 
+                    {
+                      "name": "T1203", 
+                      "status": 2, 
+                      "value": "Exploitation for Client Execution"
+                    }, 
+                    {
+                      "name": "T1204", 
+                      "status": 2, 
+                      "value": "User Execution"
+                    }
+                  ]
+                }, 
+                "location": 6, 
+                "msg": "success"
+              }, 
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "properties": {
+                    "group": {
+                      "items": {
+                        "properties": {
+                          "name": {
+                            "description": "group name", 
+                            "type": "string"
+                          }, 
+                          "status": {
+                            "description": "group check status 1->not check,2->check", 
+                            "type": "integer"
+                          }
+                        }, 
+                        "type": "object"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "tactics": {
+                      "items": {
+                        "properties": {
+                          "name": {
+                            "description": "tactics name", 
+                            "type": "string"
+                          }, 
+                          "status": {
+                            "description": "tactics check status 1->not check,2->check", 
+                            "type": "integer"
+                          }
+                        }, 
+                        "type": "object"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "technique": {
+                      "items": {
+                        "properties": {
+                          "name": {
+                            "description": "tactics name", 
+                            "type": "string"
+                          }, 
+                          "status": {
+                            "description": "tactics check status 1->not check,2->check", 
+                            "type": "integer"
+                          }, 
+                          "value": {
+                            "description": "tactics name mapping value", 
+                            "type": "string"
+                          }
+                        }, 
+                        "type": "object"
+                      }, 
+                      "type": "array"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "ace task groups->technique->tactics linkage", 
+        "tags": [
+          "task management"
+        ]
+      }
+    }, 
+    "/api/v4/tasks/ace/summary": {
+      "get": {
+        "consumes": [
+          "text/plain"
+        ], 
+        "description": "ace history histogram data", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "description": "taskid", 
+            "in": "query", 
+            "name": "task_id", 
+            "required": true, 
+            "schema": {
+              "example": "06626686-d029-11eb-8c7a-0022e202013e", 
+              "format": "binary", 
+              "type": "string"
+            }, 
+            "type": "string"
+          }, 
+          {
+            "description": "select_date", 
+            "in": "query", 
+            "name": "select_date", 
+            "schema": {
+              "example": "2022-3-8", 
+              "format": "binary", 
+              "type": "string"
+            }, 
+            "type": "string"
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "example": {
+                "code": 0, 
+                "data": {
+                  "properties": {
+                    "schedule": {
+                      "rate": {
+                        "default": [], 
+                        "description": "schedule rate array", 
+                        "items": {
+                          "description": "schedule rate", 
+                          "type": "integer"
+                        }, 
+                        "type": "array"
+                      }, 
+                      "time": {
+                        "default": "", 
+                        "description": "schedule time", 
+                        "type": "string"
+                      }, 
+                      "type": {
+                        "default": "success", 
+                        "description": "schedule type-weekly,monthly", 
+                        "type": "string"
+                      }
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "location": 6, 
+                "msg": "success"
+              }, 
+              "properties": {
+                "code": {
+                  "default": 200, 
+                  "description": "status code 200", 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "properties": {
+                    "properties": {
+                      "agent_count": {
+                        "description": "agent_count", 
+                        "format": "int32", 
+                        "type": "integer"
+                      }, 
+                      "children": {
+                        "description": "children", 
+                        "items": {
+                          "description": "schedule rate", 
+                          "type": "integer"
+                        }, 
+                        "type": "array"
+                      }, 
+                      "end_time": {
+                        "description": "end_time", 
+                        "type": "float"
+                      }, 
+                      "pb_count": {
+                        "description": "pb_count", 
+                        "format": "int32", 
+                        "type": "integer"
+                      }, 
+                      "progress": {
+                        "description": "progress", 
+                        "type": "float"
+                      }, 
+                      "start_time": {
+                        "description": "start_time", 
+                        "type": "float"
+                      }, 
+                      "success": {
+                        "description": "success", 
+                        "format": "int32", 
+                        "type": "integer"
+                      }, 
+                      "success_pct": {
+                        "description": "success_pct", 
+                        "type": "float"
+                      }
+                    }, 
+                    "type": "object"
+                  }, 
+                  "type": "array"
+                }, 
+                "message": {
+                  "default": "success", 
+                  "description": "get success", 
+                  "type": "string"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": ":return:", 
+        "tags": [
+          "task data"
+        ]
+      }
+    }, 
+    "/api/v4/tasks/ace/trend": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ], 
+        "description": "get ace task intranet security test trend", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "description": "taskid", 
+            "in": "query", 
+            "name": "task_id", 
+            "required": true, 
+            "schema": {
+              "example": "9c1bb616-a407-11ec-8383-0050569afc21", 
+              "format": "binary", 
+              "type": "string"
+            }, 
+            "type": "string"
+          }, 
+          {
+            "description": "limit times", 
+            "in": "query", 
+            "name": "limit", 
+            "type": "integer"
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "example": {
+                "code": 0, 
+                "data": {
+                  "trend_info": {
+                    "03": {
+                      "type": "object"
+                    }, 
+                    "schedule": {
+                      "rate": {
+                        "default": [], 
+                        "description": "schedule rate array", 
+                        "items": {
+                          "description": "schedule rate", 
+                          "type": "integer"
+                        }, 
+                        "type": "array"
+                      }, 
+                      "time": {
+                        "default": "", 
+                        "description": "schedule time", 
+                        "type": "string"
+                      }, 
+                      "type": "object"
+                    }, 
+                    "type": "object"
+                  }, 
+                  "type": "object"
+                }, 
+                "location": 6, 
+                "msg": "success"
+              }, 
+              "properties": {
+                "code": {
+                  "default": 200, 
+                  "description": "status code 200", 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "template_name": {
+                    "type": "string"
+                  }, 
+                  "trend_info": {
+                    "type": "array"
+                  }, 
+                  "type": "object"
+                }, 
+                "message": {
+                  "default": "success", 
+                  "description": "get success", 
+                  "type": "string"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "get ace task trend", 
+        "tags": [
+          "task data"
+        ]
+      }
+    }, 
+    "/api/v4/tasks/clone": {
+      "post": {
+        "consumes": [
+          "text/plain"
+        ], 
+        "description": "clone task", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "description": "taskid", 
+            "in": "query", 
+            "name": "task_id", 
+            "required": true, 
+            "schema": {
+              "example": "06626686-d029-11eb-8c7a-0022e202013e", 
+              "format": "binary", 
+              "type": "string"
+            }, 
+            "type": "string"
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "example": {
+                "code": 0, 
+                "data": {
+                  "task_id": "06626686-d029-11eb-8c7a-0022e202013e", 
+                  "template_id": 1
+                }, 
+                "location": 6, 
+                "msg": "success"
+              }, 
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "properties": {
+                    "task_id": {
+                      "description": "taskid", 
+                      "type": "string"
+                    }, 
+                    "template_id": {
+                      "description": "task template_id", 
+                      "type": "integer"
+                    }
+                  }, 
+                  "required": [
+                    "task_id", 
+                    "template_id"
+                  ], 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "task clone", 
+        "tags": [
+          "task management"
+        ]
+      }
+    }, 
+    "/api/v4/tasks/delete": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ], 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "example": {
+                "tasks_id": [
+                  "578f889a-9bf9-11eb-9251-0050569a5545"
+                ]
+              }, 
+              "properties": {
+                "tasks_id": {
+                  "description": "plugin id list", 
+                  "items": {
+                    "description": "taskid", 
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }
+              }, 
+              "required": [
+                "tasks_id"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "Stops the project currently being run by taskID and deletes all the knowledge it produces", 
+        "tags": [
+          "task management"
+        ]
+      }
+    }, 
+    "/api/v4/tasks/draft/save": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ], 
+        "description": "create task,configure task basic information", 
+        "parameters": [
+          {
+            "default": "Your-RidgeBot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "properties": {
+                "access_control_policy": {
+                  "description": "access control policy", 
+                  "properties": {
+                    "bypassuac": {
+                      "default": false, 
+                      "description": "whether to open bypass uac", 
+                      "type": "boolean"
+                    }, 
+                    "elevateed_privileges": {
+                      "default": false, 
+                      "description": "whether to elevate privileges", 
+                      "type": "boolean"
+                    }, 
+                    "is_migration_permissions": {
+                      "default": false, 
+                      "description": "whether to open migration permissions", 
+                      "properties": {}, 
+                      "type": "object"
+                    }, 
+                    "local_info": {
+                      "default": [], 
+                      "description": "local info", 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "unstable_elevate_privileges": {
+                      "default": false, 
+                      "description": "whether to open unstable elevate privileges", 
+                      "type": "boolean"
+                    }
+                  }, 
+                  "required": [
+                    "elevate_privileges", 
+                    "unstable_elevate_privileges", 
+                    "bypassuac", 
+                    "is_migration_permissions", 
+                    "local_info"
+                  ], 
+                  "type": "object"
+                }, 
+                "attack_mode": {
+                  "default": 1, 
+                  "description": "1->Automatic decision making 2-> Manual decision-making", 
+                  "example": 1, 
+                  "type": "integer"
+                }, 
+                "attack_policy": {
+                  "description": "attack policy", 
+                  "properties": {
+                    "exp_priority": {
+                      "default": 0, 
+                      "description": "exploit priority", 
+                      "type": "integer"
+                    }, 
+                    "is_open_exp": {
+                      "default": 0, 
+                      "description": "whether to open exploit", 
+                      "type": "boolean"
+                    }, 
+                    "is_open_exp_evade": {
+                      "default": true, 
+                      "description": "whether to open exploit evade", 
+                      "type": "boolean"
+                    }
+                  }, 
+                  "required": [
+                    "is_open_exp", 
+                    "is_open_exp_evade", 
+                    "exp_priority"
+                  ], 
+                  "type": "object"
+                }, 
+                "attack_range": {
+                  "default": [], 
+                  "description": "web tempalte, attack range ", 
+                  "items": {
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }, 
+                "blacklist": {
+                  "default": [], 
+                  "description": "the target exclusion list", 
+                  "items": {
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }, 
+                "blind_test": {
+                  "default": {}, 
+                  "description": "blind test configuration", 
+                  "properties": {
+                    "client": {
+                      "description": "client configuration", 
+                      "properties": {
+                        "dns_address": {
+                          "description": "DNS address", 
+                          "type": "string"
+                        }, 
+                        "http_address": {
+                          "description": "HTTP address", 
+                          "type": "string"
+                        }, 
+                        "tcp_address": {
+                          "description": "TCP address", 
+                          "type": "string"
+                        }
+                      }, 
+                      "type": "object"
+                    }, 
+                    "local_hosts": {
+                      "description": "lcoal host", 
+                      "items": {
+                        "description": "local ip", 
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "server": {
+                      "description": "server configuration", 
+                      "properties": {
+                        "data_durationn": {
+                          "description": "data duration", 
+                          "type": "integer"
+                        }, 
+                        "dns_domain": {
+                          "description": "DNS domain", 
+                          "type": "string"
+                        }, 
+                        "http_port": {
+                          "description": "HTTP port", 
+                          "type": "integer"
+                        }, 
+                        "listen_ip": {
+                          "description": "listen IP", 
+                          "type": "string"
+                        }, 
+                        "tcp_end_port": {
+                          "type": "integer"
+                        }, 
+                        "tcp_start_port": {
+                          "type": "integer"
+                        }
+                      }, 
+                      "type": "object"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "burst_policy": {
+                  "description": "password burst strategy", 
+                  "properties": {
+                    "assist_recognition": {
+                      "default": 0, 
+                      "description": "assist recognition, 0: password guess 1: password spraying", 
+                      "type": "integer"
+                    }, 
+                    "is_open_bf": {
+                      "default": 1, 
+                      "description": "Todo: Whether to turn on brute force", 
+                      "type": "integer"
+                    }, 
+                    "services": {
+                      "default": [
+                        "FTP", 
+                        "SSH", 
+                        "TELNET", 
+                        "SNMP", 
+                        "SMB", 
+                        "MSSQL", 
+                        "ORACLE", 
+                        "MYSQL", 
+                        "RDP", 
+                        "POSTGRESQL", 
+                        "VNC", 
+                        "COUCHDB", 
+                        "REDIS", 
+                        "INFLUXDB", 
+                        "DB2"
+                      ], 
+                      "description": "services type", 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }
+                  }, 
+                  "required": [
+                    "is_open_bf", 
+                    "assist_recognition", 
+                    "services"
+                  ], 
+                  "type": "object"
+                }, 
+                "cycle_plan": {
+                  "default": 0, 
+                  "description": "execute plan(0 / 1/ 2/ 3 )", 
+                  "type": "integer"
+                }, 
+                "detect_policy": {
+                  "description": "detection policy", 
+                  "properties": {
+                    "flow_control": {
+                      "default": 3, 
+                      "description": "flow control, 1: stealthy 2: intermediate 3: normail 4: noisy", 
+                      "type": "integer"
+                    }, 
+                    "is_detect_ul": {
+                      "default": 1, 
+                      "description": "Whether to detect unstable vulnerabilities, 1: true 0: false", 
+                      "type": "integer"
+                    }, 
+                    "is_filter_wd": {
+                      "default": true, 
+                      "description": "Whether to filter vulnerable devices, true or false", 
+                      "type": "boolean"
+                    }, 
+                    "is_open_ad": {
+                      "default": 1, 
+                      "description": "Whether to detect unstable vulnerabilities, 1: true 0: false", 
+                      "type": "integer"
+                    }, 
+                    "max_connections": {
+                      "default": 0, 
+                      "description": "todo: The maximum number of connections", 
+                      "type": "integer"
+                    }, 
+                    "vul_priority": {
+                      "default": 0, 
+                      "description": "vulnerability priority 0 -> speed 1 -> output", 
+                      "type": "integer"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "grab_mode": {
+                  "default": 0, 
+                  "description": "grab mode  (0->crawler mode /  1-> proxy mode)", 
+                  "type": "integer"
+                }, 
+                "is_config_email": {
+                  "default": false, 
+                  "type": "boolean"
+                }, 
+                "name": {
+                  "description": "task name", 
+                  "example": "test task", 
+                  "type": "string"
+                }, 
+                "post_penetration_conf": {
+                  "description": "post pentration configure", 
+                  "properties": {
+                    "exclude": {
+                      "default": [], 
+                      "description": "exclude attack", 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "investigation_depth": {
+                      "default": 3, 
+                      "description": "investigation depth", 
+                      "example": 3, 
+                      "type": "integer"
+                    }, 
+                    "lateral_attack": {
+                      "default": true, 
+                      "description": "whether to open lateral attack", 
+                      "type": "boolean"
+                    }, 
+                    "lateral_range": {
+                      "default": [], 
+                      "description": "lateral range", 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "max_penetrated_host": {
+                      "default": 10, 
+                      "description": "max penetrated host", 
+                      "example": 10, 
+                      "type": "integer"
+                    }
+                  }, 
+                  "required": [
+                    "lateral_attack", 
+                    "lateral_range", 
+                    "exclude", 
+                    "max_penetrated_host", 
+                    "investigation_depth"
+                  ], 
+                  "type": "object"
+                }, 
+                "receiver_email": {
+                  "default": [], 
+                  "description": "receiver email", 
+                  "items": {
+                    "description": "email address", 
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }, 
+                "schedule": {
+                  "description": "task schedule,task schedule - Active or Pause time window", 
+                  "properties": {
+                    "rate": {
+                      "items": {
+                        "description": "", 
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "time": {
+                      "description": "schedule tasks time", 
+                      "type": "string"
+                    }, 
+                    "type": {
+                      "description": "schedule tasks type-weekly,monthly", 
+                      "type": "string"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "service_detect_policy": {
+                  "description": "\\u670d\\u52a1\\u4fa6\\u67e5\\u7b56\\u7565", 
+                  "properties": {
+                    "auxiliary_protocols": {
+                      "default": [
+                        "dns", 
+                        "ftp", 
+                        "imap", 
+                        "mssql", 
+                        "nntp", 
+                        "ntp", 
+                        "pop3", 
+                        "rdp", 
+                        "smb", 
+                        "smtp", 
+                        "snmp", 
+                        "ssh", 
+                        "telnet", 
+                        "http", 
+                        "https"
+                      ], 
+                      "description": "auxiliary protocols", 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "host_timeout": {
+                      "default": 3600, 
+                      "description": "hsot timeout", 
+                      "type": "integer"
+                    }, 
+                    "info_extract": {
+                      "default": [], 
+                      "description": "info extract", 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "is_overwrite": {
+                      "default": 1, 
+                      "description": "Overwrite the association between task asset management and manually adding operating system and hostname(0->not overwrite/  1-> overwrite)", 
+                      "type": "integer"
+                    }, 
+                    "scan_method": {
+                      "default": "TCP_SYN_UDP", 
+                      "description": "scan method,SYN ACK UDP FIN", 
+                      "type": "string"
+                    }, 
+                    "scan_port_method": {
+                      "default": "usual_tcp_port", 
+                      "description": "scan port method: usual_port all_port custom_port usual_tcp_port", 
+                      "type": "string"
+                    }, 
+                    "scan_ports": {
+                      "default": "T:1,2-4,....", 
+                      "description": "scan ports", 
+                      "type": "string"
+                    }, 
+                    "scan_retry": {
+                      "default": 3, 
+                      "description": "scan retry 3-5", 
+                      "type": "integer"
+                    }, 
+                    "service_analysis_level": {
+                      "default": 7, 
+                      "description": "service analysis level (0 / 7/ 9) -> quick / optinum/ total", 
+                      "type": "integer"
+                    }, 
+                    "use_host_discovery": {
+                      "default": true, 
+                      "description": "whether use host discovery  True or False", 
+                      "type": "boolean"
+                    }
+                  }, 
+                  "required": [
+                    "auxiliary_protocols", 
+                    "info_extract", 
+                    "scan_method", 
+                    "scan_port_method", 
+                    "scan_ports", 
+                    "host_timeout", 
+                    "scan_retry", 
+                    "use_host_discovery", 
+                    "service_analysis_level"
+                  ], 
+                  "type": "object"
+                }, 
+                "session_policy": {
+                  "properties": {
+                    "clean_date": {
+                      "description": "", 
+                      "example": "", 
+                      "type": "string"
+                    }, 
+                    "clean_mode": {
+                      "description": "clean mode 0--> auto clean 1--> timed clean", 
+                      "type": "integer"
+                    }, 
+                    "rc_addr": {
+                      "default": "127.0.0.1", 
+                      "description": "reverse address", 
+                      "type": "string"
+                    }, 
+                    "rc_eport": {
+                      "default": 41000, 
+                      "description": "reverse end port", 
+                      "type": "integer"
+                    }, 
+                    "rc_mode": {
+                      "default": 0, 
+                      "description": "reverse connection mode", 
+                      "type": "integer"
+                    }, 
+                    "rc_sport": {
+                      "default": 40000, 
+                      "description": "reverse start port", 
+                      "type": "integer"
+                    }
+                  }, 
+                  "required": [
+                    "clean_mode", 
+                    "rc_sport", 
+                    "rc_eport", 
+                    "rc_addr"
+                  ], 
+                  "type": "object"
+                }, 
+                "summary": {
+                  "default": "", 
+                  "description": "task description information", 
+                  "example": "test task summary", 
+                  "type": "string"
+                }, 
+                "targets": {
+                  "description": "task target", 
+                  "example": [
+                    "10.10.10.1", 
+                    "10.10.10.2"
+                  ], 
+                  "items": {
+                    "type": "string"
+                  }, 
+                  "type": "array"
+                }, 
+                "task_id": {
+                  "description": "task_id", 
+                  "example": "2a4e3098-55b2-11ec-a120-0050569a5545", 
+                  "type": "string"
+                }, 
+                "template_id": {
+                  "default": 1, 
+                  "description": "the task template id, \n1: Full Penetration \n2: Website Penetration \n3:Intranet Penetration \n4:Weak Credential Exploit \n5. 3rd Party Framwork Penetration Testing\n6.Attack Surface Exposure\n 7.Ransomware Attack Simulation ", 
+                  "example": 1, 
+                  "type": "integer"
+                }, 
+                "vul_policy": {
+                  "properties": {
+                    "components": {
+                      "description": "component list", 
+                      "example": [
+                        20001, 
+                        20003
+                      ], 
+                      "items": {
+                        "type": "integer"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "miter": {
+                      "default": [], 
+                      "description": "MITER", 
+                      "items": {
+                        "type": "string"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "ostype": {
+                      "default": [
+                        0, 
+                        1, 
+                        2
+                      ], 
+                      "description": " os type", 
+                      "items": {
+                        "type": "integer"
+                      }, 
+                      "type": "array"
+                    }, 
+                    "severity": {
+                      "default": [
+                        1, 
+                        2, 
+                        3, 
+                        0
+                      ], 
+                      "description": "serverity", 
+                      "items": {
+                        "type": "integer"
+                      }, 
+                      "type": "array"
+                    }
+                  }, 
+                  "required": [
+                    "ostype", 
+                    "severity", 
+                    "components"
+                  ], 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "name", 
+                "template_id"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "properties": {
+                    "task_id": {
+                      "description": "data", 
+                      "example": "2a4e3098-55b2-11ec-a120-0050569a5545", 
+                      "type": "string"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "save draft task", 
+        "tags": [
+          "task management"
+        ]
+      }
+    }, 
+    "/api/v4/tasks/import/targets": {
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ], 
+        "description": "import targets from file", 
+        "parameters": [
+          {
+            "description": "file to upload", 
+            "in": "formData", 
+            "name": "file", 
+            "required": true, 
+            "type": "file"
+          }, 
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }
+        ], 
+        "produces": [
+          "application/json"
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "properties": {
+                    "targets": {
+                      "description": "target list", 
+                      "example": [
+                        "192.168.1.1", 
+                        "https://www.baidu.com"
+                      ], 
+                      "type": "list"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "Description: import targets from file (txt or csv)", 
+        "tags": [
+          "task management"
+        ]
+      }
+    }, 
+    "/api/v4/tasks/info": {
+      "get": {
+        "consumes": [
+          "text/plain"
+        ], 
+        "description": "task info: start time , end time , status, job count ,job total", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "default": "", 
+            "description": "task id", 
+            "in": "query", 
+            "name": "task_id", 
+            "required": false, 
+            "schema": {
+              "example": "06626686-d029-11eb-8c7a-0022e202013e", 
+              "format": "binary", 
+              "type": "string"
+            }, 
+            "type": "string"
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "description": "task info list", 
+                  "items": {
+                    "properties": {
+                      "detect_type": {
+                        "example": "PT", 
+                        "type": "string"
+                      }, 
+                      "task_id": {
+                        "example": "863d3d84-576c-11ec-abc0-0050569a5545", 
+                        "type": "string"
+                      }, 
+                      "task_job_count": {
+                        "description": "task job count", 
+                        "example": 798, 
+                        "type": "integer"
+                      }, 
+                      "task_job_total": {
+                        "description": "task job total", 
+                        "example": 798, 
+                        "type": "integer"
+                      }, 
+                      "task_name": {
+                        "example": "task_a", 
+                        "type": "string"
+                      }, 
+                      "task_nodes": {
+                        "description": "task nodes list", 
+                        "example": [], 
+                        "items": {
+                          "default": "", 
+                          "type": "string"
+                        }, 
+                        "type": "array"
+                      }, 
+                      "task_start_time": {
+                        "description": "task start time", 
+                        "example": 1634885904.637, 
+                        "type": "integer"
+                      }, 
+                      "task_status": {
+                        "description": "0: waiting 1: running 2: pause 3:cancel 4: finish 5:queuing  6: unack", 
+                        "example": 2, 
+                        "type": "integer"
+                      }, 
+                      "task_stop_time": {
+                        "description": "task stop time", 
+                        "example": 1634888160.054, 
+                        "type": "integer"
+                      }, 
+                      "task_summary": {
+                        "description": "task summary", 
+                        "example": "", 
+                        "type": "string"
+                      }, 
+                      "task_targets": {
+                        "description": "task target list", 
+                        "items": {
+                          "example": "http://php.testsparker.com/test.txt", 
+                          "type": "string"
+                        }, 
+                        "type": "array"
+                      }, 
+                      "task_type": {
+                        "default": "single", 
+                        "description": "task type", 
+                        "example": "single", 
+                        "type": "string"
+                      }
+                    }, 
+                    "type": "object"
+                  }, 
+                  "type": "array"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "task info", 
+        "tags": [
+          "task management"
+        ]
+      }
+    }, 
+    "/api/v4/tasks/pause": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ], 
+        "description": "task status from running to pause", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "example": {
+                "task_id": "06626686-d029-11eb-8c7a-0022e202013e"
+              }, 
+              "properties": {
+                "task_id": {
+                  "description": "taskid", 
+                  "type": "string"
+                }
+              }, 
+              "required": [
+                "task_id"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "default": {}, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "messagedata"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "pause task", 
+        "tags": [
+          "task management"
+        ]
+      }
+    }, 
+    "/api/v4/tasks/restart": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ], 
+        "description": ":param auth_res:<br/>:return:", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "example": {
+                "task_id": "06626686-d029-11eb-8c7a-0022e202013e"
+              }, 
+              "properties": {
+                "task_id": {
+                  "description": "taskid", 
+                  "type": "string"
+                }
+              }, 
+              "required": [
+                "task_id"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "default": {}, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "messagedata"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "Restart the task, clear all the data of the task, and redistribute the task", 
+        "tags": [
+          "task management"
+        ]
+      }
+    }, 
+    "/api/v4/tasks/start": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ], 
+        "description": "task status from stop to start", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "example": {
+                "task_id": "06626686-d029-11eb-8c7a-0022e202013e"
+              }, 
+              "properties": {
+                "task_id": {
+                  "description": "taskid", 
+                  "type": "string"
+                }
+              }, 
+              "required": [
+                "task_id"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "default": {}, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "messagedata"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "task start", 
+        "tags": [
+          "task management"
+        ]
+      }
+    }, 
+    "/api/v4/tasks/statistics": {
+      "get": {
+        "consumes": [
+          "text/plain"
+        ], 
+        "description": "get  task statistics", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "description": "taskid", 
+            "in": "query", 
+            "name": "task_id", 
+            "required": true, 
+            "schema": {
+              "example": "06626686-d029-11eb-8c7a-0022e202013e", 
+              "format": "binary", 
+              "type": "string"
+            }, 
+            "type": "string"
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "properties": {
+                    "asstes_alive": {
+                      "properties": {
+                        "ip_alive_num": {
+                          "description": "ip alive num", 
+                          "example": 1, 
+                          "type": "integer"
+                        }, 
+                        "ip_unalive_num": {
+                          "description": "ip unalive num", 
+                          "example": 0, 
+                          "type": "integer"
+                        }, 
+                        "site_alive_num": {
+                          "description": "site alive num", 
+                          "example": 1, 
+                          "type": "integer"
+                        }, 
+                        "site_unalive_num": {
+                          "description": "site unalive num", 
+                          "example": 0, 
+                          "type": "integer"
+                        }
+                      }, 
+                      "type": "object"
+                    }, 
+                    "attack": {
+                      "properties": {
+                        "asstes_num": {
+                          "description": "ip unalive num", 
+                          "example": 2, 
+                          "type": "integer"
+                        }, 
+                        "attack_surface_num": {
+                          "description": "site unalive num", 
+                          "example": 27, 
+                          "type": "integer"
+                        }, 
+                        "ip_asstes_num": {
+                          "description": "vul number", 
+                          "example": 1, 
+                          "type": "integer"
+                        }, 
+                        "site_asstes_num": {
+                          "description": "site alive num", 
+                          "example": 1, 
+                          "type": "integer"
+                        }
+                      }, 
+                      "type": "object"
+                    }, 
+                    "chain": {
+                      "properties": {
+                        "sensitive_attack_average": {
+                          "description": "sensitive attack average", 
+                          "example": 6, 
+                          "type": "integer"
+                        }, 
+                        "sensitive_attack_chain": {
+                          "description": "sensitive attack chain", 
+                          "items": {
+                            "properties": {
+                              "key": {
+                                "example": 6, 
+                                "type": "integer"
+                              }, 
+                              "value": {
+                                "example": 1, 
+                                "type": "integer"
+                              }
+                            }, 
+                            "type": "object"
+                          }, 
+                          "type": "array"
+                        }, 
+                        "vul_attack_average": {
+                          "description": "vul attack average", 
+                          "example": 5, 
+                          "type": "integer"
+                        }, 
+                        "vul_attack_chain": {
+                          "description": "vul attack chain", 
+                          "items": {
+                            "properties": {
+                              "key": {
+                                "example": 5, 
+                                "type": "integer"
+                              }, 
+                              "value": {
+                                "example": 5, 
+                                "type": "integer"
+                              }
+                            }, 
+                            "type": "object"
+                          }, 
+                          "type": "array"
+                        }
+                      }, 
+                      "type": "object"
+                    }, 
+                    "risk": {
+                      "properties": {
+                        "infiltrated_assets_num": {
+                          "description": "infiltrated assets num", 
+                          "example": 1, 
+                          "type": "integer"
+                        }, 
+                        "risk_code_num": {
+                          "description": "risk code num", 
+                          "example": 1, 
+                          "type": "integer"
+                        }, 
+                        "risk_credentials_num": {
+                          "description": "risk credentials num", 
+                          "example": 0, 
+                          "type": "integer"
+                        }, 
+                        "risk_database_num": {
+                          "description": "risk database num", 
+                          "example": 0, 
+                          "type": "integer"
+                        }, 
+                        "risk_number": {
+                          "description": "risk number", 
+                          "example": 2, 
+                          "type": "integer"
+                        }, 
+                        "risk_shell_num": {
+                          "description": "risk shell num", 
+                          "example": 1, 
+                          "type": "integer"
+                        }
+                      }, 
+                      "type": "object"
+                    }, 
+                    "security_module": {
+                      "properties": {
+                        "alive ratio": {
+                          "default": 100, 
+                          "description": "alive ratio", 
+                          "type": "integer"
+                        }, 
+                        "attack_surface_density": {
+                          "description": "attack surface density", 
+                          "example": 7, 
+                          "type": "integer"
+                        }, 
+                        "https_ratio": {
+                          "description": "https ratio", 
+                          "example": 0, 
+                          "type": "integer"
+                        }, 
+                        "risk_transform": {
+                          "description": "risk transform", 
+                          "example": 4, 
+                          "type": "integer"
+                        }, 
+                        "safety_index": {
+                          "description": "health score", 
+                          "example": 33, 
+                          "type": "integer"
+                        }, 
+                        "vul_transform": {
+                          "description": "vul transform", 
+                          "example": 100, 
+                          "type": "integer"
+                        }, 
+                        "vultype_coverage_ratio": {
+                          "description": "vultype coverage ratio", 
+                          "example": 36, 
+                          "type": "integer"
+                        }
+                      }, 
+                      "type": "object"
+                    }, 
+                    "task_info": {
+                      "properties": {
+                        "task_dig_count": {
+                          "description": "task dig count", 
+                          "example": 4, 
+                          "type": "integer"
+                        }, 
+                        "task_exploit_count": {
+                          "default": 32, 
+                          "description": "task exploit count", 
+                          "type": "integer"
+                        }, 
+                        "task_job_count": {
+                          "description": "task job count", 
+                          "example": 798, 
+                          "type": "integer"
+                        }, 
+                        "task_job_total": {
+                          "description": "task job total", 
+                          "example": 798, 
+                          "type": "integer"
+                        }, 
+                        "task_next_start_time": {
+                          "description": "task next start time", 
+                          "example": 0, 
+                          "type": "integer"
+                        }, 
+                        "task_nodes": {
+                          "description": "task nodes list", 
+                          "example": [], 
+                          "items": {
+                            "default": "", 
+                            "type": "string"
+                          }, 
+                          "type": "array"
+                        }, 
+                        "task_scan_count": {
+                          "description": "task scan count", 
+                          "example": 762, 
+                          "type": "integer"
+                        }, 
+                        "task_start_time": {
+                          "description": "task start time", 
+                          "example": 1634885904.637, 
+                          "type": "integer"
+                        }, 
+                        "task_stop_time": {
+                          "default": 1634888160.054, 
+                          "description": "task stop time", 
+                          "type": "integer"
+                        }, 
+                        "task_summary": {
+                          "description": "task summary", 
+                          "example": "", 
+                          "type": "string"
+                        }, 
+                        "task_targets": {
+                          "description": "task target list", 
+                          "items": {
+                            "example": "http://php.testsparker.com/test.txt", 
+                            "type": "string"
+                          }, 
+                          "type": "array"
+                        }, 
+                        "task_type": {
+                          "default": "single", 
+                          "description": "task type", 
+                          "example": "single", 
+                          "type": "string"
+                        }
+                      }, 
+                      "type": "object"
+                    }, 
+                    "vul": {
+                      "properties": {
+                        "vul_high": {
+                          "description": "site alive num", 
+                          "example": 14, 
+                          "type": "integer"
+                        }, 
+                        "vul_info": {
+                          "description": "ip unalive num", 
+                          "example": 3, 
+                          "type": "integer"
+                        }, 
+                        "vul_low": {
+                          "description": "site alive num", 
+                          "example": 7, 
+                          "type": "integer"
+                        }, 
+                        "vul_middle": {
+                          "description": "site unalive num", 
+                          "example": 22, 
+                          "type": "integer"
+                        }, 
+                        "vul_number": {
+                          "description": "vul number", 
+                          "example": 46, 
+                          "type": "integer"
+                        }, 
+                        "vultype_number": {
+                          "description": "site unalive num", 
+                          "example": 12, 
+                          "type": "integer"
+                        }
+                      }, 
+                      "type": "object"
+                    }
+                  }, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "task statistics", 
+        "tags": [
+          "task management"
+        ]
+      }
+    }, 
+    "/api/v4/tasks/stop": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ], 
+        "description": "stop task", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }, 
+          {
+            "in": "body", 
+            "name": "root", 
+            "schema": {
+              "example": {
+                "task_id": "06626686-d029-11eb-8c7a-0022e202013e"
+              }, 
+              "properties": {
+                "task_id": {
+                  "description": "taskid", 
+                  "type": "string"
+                }
+              }, 
+              "required": [
+                "task_id"
+              ], 
+              "type": "object"
+            }
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "default": {}, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "messagedata"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "summary": "stop task", 
+        "tags": [
+          "task management"
+        ]
+      }
+    }, 
+    "/api/v4/test/connect": {
+      "get": {
+        "description": "This API is used for connection check: 1. If your machine is accessible. 2. if your token is valid.", 
+        "parameters": [
+          {
+            "default": "Your-Ridgebot-User-Token", 
+            "description": "Authorization (Only:Your-Ridgebot-User-Token)", 
+            "in": "header", 
+            "name": "Authorization", 
+            "required": true, 
+            "type": "string"
+          }
+        ], 
+        "responses": {
+          "0": {
+            "description": "successful operation", 
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "status code 0", 
+                  "example": 0, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "data": {
+                  "default": {}, 
+                  "type": "object"
+                }, 
+                "location": {
+                  "description": "tip location", 
+                  "example": 6, 
+                  "format": "int32", 
+                  "type": "integer"
+                }, 
+                "msg": {
+                  "description": "success information", 
+                  "example": "success", 
+                  "type": "object"
+                }
+              }, 
+              "required": [
+                "code", 
+                "message", 
+                "data"
+              ], 
+              "type": "object"
+            }
+          }
+        }, 
+        "tags": [
+          "test"
+        ]
+      }
+    }
+  }, 
+  "swagger": "2.0"
+}
