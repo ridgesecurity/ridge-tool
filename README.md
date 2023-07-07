@@ -55,7 +55,7 @@ You must install the Ridge ca.crt certificate on your device to be able to captu
 ```
 Usage: python3 api_conv.py [api_commands] [-p 'http://proxy_server:port'] [-f conv#]
 
-python3 api_conv.py examples/citcon_api.txt -p 'http://66.220.31.58:64194' -f 1
+python3 api_conv.py examples/api.txt -p 'http://66.220.31.58:64194' -f 1
 ```
 Api_conv.py requires a txt document of curl commands and a proxy server.
 
@@ -80,8 +80,6 @@ python3 swagger_v2_conv.py examples/petstore.json -p 'http://66.220.31.58:64194'
 ```
 Swagger file should be yaml or json file. Authenticaiton json file must provide the authentication token.
 
-
-For Ridgebot the addresss is: 172.30.101.49
 
 The proxy should be opened when running the code.
 
