@@ -53,30 +53,30 @@ You must install the Ridge ca.crt certificate on your device to be able to captu
 ### Api Command File
 
 ```
-Usage: python3 api_conv.py [api_commands] [-p 'http://proxy_server:port'] [-f conv#]
+Usage: python3 api_conv.py [api_commands] [-p http://proxy_server:port] [-f conv#]
 
-python3 api_conv.py examples/api.txt -p 'http://66.220.31.58:64194' -f 1
+python3 api_conv.py examples/api.txt -p http://66.220.31.58:64194 -f 1
 ```
 Api_conv.py requires a txt document of curl commands and a proxy server.
 
 
 ### Swagger 3.0 File
 ```
-Usage: python3 swagger_conv.py [swagger_file] [-p 'http://proxy_server:port'] [-f conv#] [-a auth_json]
+Usage: python3 swagger_conv.py [swagger_file] [-p http://proxy_server:port] [-f conv#] [-a auth_json]
 
-python3 swagger_conv.py examples/petstore.yaml -p 'http://66.220.31.58:64194' -f 1 -a examples/auth.json
+python3 swagger_conv.py examples/petstore.yaml -p http://66.220.31.58:64194 -f 1 -a examples/auth.json
 
-python3 swagger_conv.py examples/petstore.json -p 'http://66.220.31.58:64194' 
+python3 swagger_conv.py examples/petstore.json -p http://66.220.31.58:64194 
 ```
 Swagger file should be yaml or json file. Authenticaiton json file should follow the same structure under swagger component/securitySchemes and add token/credential value under each securith method.
 
 ### Swagger 2.0 File
 ```
-Usage: python3 swagger_v2_conv.py [swagger_file] [-p 'http://proxy_server:port'] [-f conv#] [-a auth_json]
+Usage: python3 swagger_v2_conv.py [swagger_file] [-p http://proxy_server:port] [-f conv#] [-a auth_json]
 
-python3 swagger_v2_conv.py examples/petstore.yaml -p 'http://66.220.31.58:64194' -f 1 -a examples/auth.json
+python3 swagger_v2_conv.py examples/petstore.yaml -p http://66.220.31.58:64194 -f 1 -a examples/auth.json
 
-python3 swagger_v2_conv.py examples/petstore.json -p 'http://66.220.31.58:64194' 
+python3 swagger_v2_conv.py examples/petstore.json -p http://66.220.31.58:64194 
 ```
 Swagger file should be yaml or json file. Authenticaiton json file must provide the authentication token.
 
