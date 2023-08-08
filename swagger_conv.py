@@ -57,7 +57,7 @@ def convolute_api(swfile, proxy=None, fuzz_times = 0, authfile = None, fuzzy = F
 
             if type(responses) == requests.Response:
                 # print(responses.headers)
-                print(responses.content)
+                # print(responses.content)
                 print(responses.status_code)
                 # extract cookie/api-key from response header and record so that it can be added to the subsequent header.
                 headers = extract_header(headers,responses)
@@ -79,7 +79,7 @@ def convolute_api(swfile, proxy=None, fuzz_times = 0, authfile = None, fuzzy = F
 
                 if type(responses) == requests.Response:
                     # print(responses.headers)
-                    print(responses.content)
+                    # print(responses.content)
                     print(responses.status_code)
                     # extract cookie/api-key from response header and record so that it can be added to the subsequent header.
                     # headers = extract_header(headers,responses)
@@ -170,8 +170,7 @@ def add_to_header(header, auth_details):
         add_header = 'Bearer' + auth_details['value']
         header['Authorization'] = add_header
     elif auth_details['type'] == 'apiKey':
-        if 'in' in auth_details:
-            if auth_details['in'] == 'cookie':
+        if 'in' in auth_details and auth_details['in'] == 'cookie':
                 header['Cookie'] = auth_details['name'] +'=' + auth_details['value']
         else:
             header[auth_details['name']] = auth_details['value']
@@ -280,9 +279,9 @@ def send_request(path, method, base_url, yaml_data, proxy, auth_data, headers = 
                     post_data  = fuzzer(form_details['schema']['type'])
     
     try:
-        print(endpoint_url)
-        print(headers)
-        print(post_data)
+        # print(endpoint_url)
+        # print(headers)
+        # print(post_data)
         if method == 'get':
             response_get = requests.get(endpoint_url, proxies=proxy, headers=headers,verify=False)     # TODO authentication
         elif method == 'delete':
@@ -291,6 +290,8 @@ def send_request(path, method, base_url, yaml_data, proxy, auth_data, headers = 
             response_get = requests.post(endpoint_url, proxies=proxy, headers=headers, json=post_data,verify=False)   
         elif method == 'put':
             response_get = requests.put(endpoint_url, proxies=proxy, headers=headers, json=post_data,verify=False)
+        elif method == 'options':
+            response_get = requests.post(endpoint_url, proxies=proxy,headers=headers,verify=False)
         status = response_get.status_code
         if str(status).startswith('5'):
             print('HTTP/1.1 ', status, 'Internal Error')
@@ -320,5 +321,5 @@ class CommandLine:
 if __name__ == '__main__':
     app = CommandLine()
     #  convolute_api('examples/openapi.json', None, 0, 'examples/auth.json')
-    #  python3 swagger_conv.py examples/openapi.yaml -a examples/auth.json
+    #  python3 swagger_conv.py examples/openapi.json -a examples/auth.json
     
