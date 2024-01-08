@@ -15,7 +15,7 @@ os.environ['REQUESTS_CA_BUNDLE'] = 'ca.cert'
 requests.packages.urllib3.disable_warnings() 
 
 
-def convolute_api(swfile, proxy=None, fuzz_times = 0, authfile = None, fuzzy = False):
+def convolute_api(swfile, proxy=None, authfile = None, fuzz = False, fuzz_path = '/text.txt'):
 
     if '.yaml' in swfile:
         with open(swfile, 'r') as file:
@@ -46,46 +46,39 @@ def convolute_api(swfile, proxy=None, fuzz_times = 0, authfile = None, fuzzy = F
 
     # excute calls with authentication first
     auth_excuted = []
-    headers = {}
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
+        "Accept-Encoding": "*",
+        "Connection": "keep-alive"
+    }
+
+    fuzz_list = None
+    if fuzz:
+        fuzz_list = read_fuzz_list_from_file(fuzz_path)
+
+
     if auth_api_calls:
         for calls in auth_api_calls:
             path = calls['path']
             method = calls['method']
             print(path + ' '+ method)
 
-            responses = send_request(path, method, base_url, yaml_data, proxies, auth_data, headers)
+            send_request(path, method, base_url, yaml_data, proxies, auth_data, headers, fuzz, fuzz_list)
 
-            if type(responses) == requests.Response:
-                # print(responses.headers)
-                # print(responses.content)
-                print(responses.status_code)
-                # extract cookie/api-key from response header and record so that it can be added to the subsequent header.
-                headers = extract_header(headers,responses)
-            else:
-                print(responses)
-            print('------')
             
             auth_excuted.append([path,method])
 
 
     for path, path_data in yaml_data['paths'].items():
         for method in path_data.keys():
-            if [path,method] in auth_excuted:
-                # ignore the calls that have been excuted
-                continue
-            else:
-                print(path + ' '+ method)
-                responses = send_request(path, method, base_url, yaml_data, proxies, auth_data, headers)
+            # if [path,method] in auth_excuted:
+            #     # ignore the calls that have been excuted
+            #     continue
+            # else:
+            print(path + ' '+ method)
+            send_request(path, method, base_url, yaml_data, proxies, auth_data, headers, fuzz, fuzz_list)
 
-                if type(responses) == requests.Response:
-                    # print(responses.headers)
-                    # print(responses.content)
-                    print(responses.status_code)
-                    # extract cookie/api-key from response header and record so that it can be added to the subsequent header.
-                    # headers = extract_header(headers,responses)
-                else:
-                    print(responses)
-                print('------')
+            print('------')
 
 
 """
@@ -164,7 +157,7 @@ def generate_data_from_schema(yaml_data,schema):
 
 def add_to_header(header, auth_details):
     if auth_details['type'] == 'http':
-        add_header = auth_details['scheme'] + auth_details['value']
+        add_header = auth_details['scheme'] + " " + auth_details['value']
         header['Authorization'] = add_header
     elif auth_details['type'] == 'oauth2':
         add_header = 'Bearer' + auth_details['value']
@@ -180,16 +173,19 @@ def add_to_header(header, auth_details):
 def extract_header(headers,responses):
     # api_key
     response_api_key = responses.headers.get('X-API-KEY')
+    response_auth = responses.headers.get('Authorization')
     if not response_api_key:
         if is_json(responses.content):
             response_data = responses.json()
-            try:
-                response_api_key = response_data.get('api_key')
-            except AttributeError:
-                pass
+            if isinstance(response_data, dict):
+                if response_data.get('api_key'):
+                    response_api_key = response_data.get('api_key')
+                if response_data.get('auth_token'):
+                    response_auth = "bearer "+response_data.get('auth_token')
     if response_api_key:
         headers.update({'X-API-KEY': response_api_key})
-
+    if response_auth:
+        headers.update({'Authorization': response_auth})
     # cookie
     cookie = responses.headers.get('Set-Cookie')
     if cookie:
@@ -198,6 +194,33 @@ def extract_header(headers,responses):
     return headers
     
 
+def read_fuzz_list_from_file(file_path):
+    with open(file_path, 'r') as file:
+        fuzz_list = file.read().splitlines()
+    # list of strings
+    print(fuzz_list)
+    return fuzz_list
+
+
+def convert_data_type(value, type_string):
+    try:
+        if type_string == 'integer':
+            return int(value)
+        elif type_string == 'string':
+            return str(value)
+        elif type_string == 'array':
+            return list(value)
+        elif type_string == 'boolean':
+            return bool(value)
+        elif type_string == 'object':
+            # Assuming value is a JSON-like string for simplicity
+            return json.loads(value)
+        elif type_string == 'number':
+            return float(value)
+        else:
+            return None  # Return None for unsupported types
+    except ValueError:
+        return None  # Return None if conversion fails
 
 
 """
@@ -205,18 +228,29 @@ request code
 """
 
 ## NEW: add headers
-def send_request(path, method, base_url, yaml_data, proxy, auth_data, headers = {}):
-    status = 0
+def send_request(path, method, base_url, yaml_data, proxy, auth_data, headers, fuzz=False, fuzz_list=None):
+    if fuzz:
+        for fuzz_value in fuzz_list:
+            # construct post_data and headers based on fuzz_value
+            endpoint_url, post_data, headers = construct_data(path, method, base_url, yaml_data, auth_data, headers, fuzz_value)
+            make_request(method, endpoint_url, proxy, headers, post_data, verify=False)
+    else:
+        # construct post_data and headers without fuzzing
+        endpoint_url, post_data, headers = construct_data(path, method, base_url, yaml_data, auth_data, headers)
+        make_request(method, endpoint_url, proxy, headers, post_data, verify=False)
 
-    # TODO see if there is more info in the headers (content type / accept type )
+
+
+
+
+def construct_data(path, method, base_url, yaml_data, auth_data, headers, fuzz_value=None):
+    # construct post_data and headers logic based on method_data and fuzz_value
     post_data = {}
     method_data = yaml_data['paths'][path][method]
-                
-    # add all parameters
-    path_query = ''
-    if 'parameters' in method_data:
-        for parameter in method_data['parameters']:
 
+    path_query = ''
+    if 'parameters' in yaml_data:
+        for parameter in yaml_data['parameters']:
             para_name = parameter['name']
             if 'default' in parameter:
                 insertval = parameter.get('default')
@@ -230,11 +264,17 @@ def send_request(path, method, base_url, yaml_data, proxy, auth_data, headers = 
                     body_schema = get_referenced_schema(yaml_data,ref)
                     insertval = [generate_data_from_schema(yaml_data,body_schema)]
                 else:
-                    insertval = [fuzzer(parameter['schema']['items']['type'])]
+                    if not fuzz_value:
+                        insertval = [fuzzer(parameter['schema']['items']['type'])]
+                    else:
+                        insertval = [convert_data_type(fuzz_value,parameter['schema']['items']['type'])]
             else:
-                insertval = fuzzer(parameter['schema']['type'])
+                if not fuzz_value:
+                    insertval = fuzzer(parameter['schema']['type'])
+                else:
+                    insertval = convert_data_type(fuzz_value,parameter['schema']['type'])
             
-             # add the parameter based on the 'in' position
+            # add the parameter based on the 'in' position
             if parameter['in'] == 'query':
                 query_param = ''
                 if insertval != '':
@@ -264,58 +304,74 @@ def send_request(path, method, base_url, yaml_data, proxy, auth_data, headers = 
             request_body = method_data['requestBody']
             request_data = request_body['content']
             for _, form_details in request_data.items():
-                if '$ref' in form_details['schema']:
+                if 'example' in form_details['schema']:
+                    post_data = form_details['schema']['example']
+                    break
+                elif '$ref' in form_details['schema']:
                     ref = form_details['schema']['$ref']
                     body_schema = get_referenced_schema(yaml_data,ref)
                     post_data = generate_data_from_schema(yaml_data,body_schema)
+                elif form_details['schema']['type'] == 'object':
+                    post_data = generate_data_from_schema(yaml_data,form_details['schema'])
                 elif form_details['schema']['type'] == 'array':
                     if '$ref' in form_details['schema']['items']:
                         ref = form_details['schema']['items']['$ref']
                         body_schema = get_referenced_schema(yaml_data,ref)
                         post_data = [generate_data_from_schema(yaml_data,body_schema)]
                     else:
-                        post_data = [fuzzer(form_details['schema']['type'])]
+                        if not fuzz_value:
+                            post_data = [fuzzer(form_details['schema']['type'])]
+                        else:
+                            post_data = [convert_data_type(fuzz_value,form_details['schema']['type'])]
                 else:
-                    post_data  = fuzzer(form_details['schema']['type'])
-    
+                    if not fuzz_value:
+                        post_data  = fuzzer(form_details['schema']['type'])
+                    else:
+                        post_data = convert_data_type(fuzz_value,form_details['schema']['type'])
+
+    return endpoint_url, post_data, headers
+
+
+def make_request(method, endpoint_url, proxy, headers, post_data, verify=False):
+    status = 0
     try:
-        # print(endpoint_url)
-        # print(headers)
-        # print(post_data)
-        if method == 'get':
-            response_get = requests.get(endpoint_url, proxies=proxy, headers=headers,verify=False)     # TODO authentication
-        elif method == 'delete':
-            response_get = requests.delete(endpoint_url, proxies=proxy,headers=headers,verify=False) 
-        elif method == 'post':
-            response_get = requests.post(endpoint_url, proxies=proxy, headers=headers, json=post_data,verify=False)   
-        elif method == 'put':
-            response_get = requests.put(endpoint_url, proxies=proxy, headers=headers, json=post_data,verify=False)
-        elif method == 'options':
-            response_get = requests.post(endpoint_url, proxies=proxy,headers=headers,verify=False)
-        status = response_get.status_code
+        if method in ['get', 'delete', 'options']:
+            response = requests.request(method, endpoint_url, proxies=proxy, headers=headers, verify=verify)
+        elif method in ['post', 'put']:
+            response = requests.request(method, endpoint_url, proxies=proxy, headers=headers, json=post_data, verify=verify)
+        else:
+            raise ValueError(f"Unsupported HTTP method: {method}")
+
+        status = response.status_code
         if str(status).startswith('5'):
-            print('HTTP/1.1 ', status, 'Internal Error')
-            return response_get
+            print(f'HTTP/1.1 {status} Internal Error')
+
+        if isinstance(response, requests.Response):
+            print(f"URL: {endpoint_url}")
+            print("Headers:", headers)
+            print("Body:", post_data)
+            print("Response Code:", response.status_code)
+            headers = extract_header(headers, response)
+        else:
+            print(response)
+
     except requests.exceptions.RequestException as e:
-        print('Error', e)
-        return e
+        print(f'Error: {e}')
 
-    return response_get
-
-    
     
 
 class CommandLine:
     def __init__(self):
         parser = argparse.ArgumentParser(description = "Parser to read inputs for swagger_conv")
-        parser.add_argument("swagger_file", help = 'Swagger file to read, yaml or json')
-        # need to change to auth
-        parser.add_argument("-a", "--auth_json", help = "Authorization data", required = False, default = None)
-        parser.add_argument("-p", "--proxy", help = "Proxy Server to run on", required = False)
-        parser.add_argument("-f", "--fuzz_times", help = "Number of times to fuzz", required = False, default = 0)
+        parser = argparse.ArgumentParser(description="Parser to read inputs for swagger_conv")
+        parser.add_argument("swagger_file", help='Swagger file to read, yaml or json')
+        parser.add_argument("-a", "--auth_json", help="Authorization data", required=False, default=None)
+        parser.add_argument("-p", "--proxy", help="Proxy Server to run on", required=False)
+        parser.add_argument("-f", "--fuzz", help="Start default", action="store_true")  # Change the default to False
+        parser.add_argument("-fl", "--fuzz_path", help="Use self-prepared fuzz wordlist", required=False, default='examples/wordlist.txt')
         
         argument = parser.parse_args()
-        convolute_api(argument.swagger_file, argument.proxy, int(argument.fuzz_times), argument.auth_json)
+        convolute_api(argument.swagger_file, argument.proxy,  argument.auth_json, argument.fuzz, argument.fuzz_path)
         
 
 if __name__ == '__main__':
